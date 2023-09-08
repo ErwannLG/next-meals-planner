@@ -1,11 +1,5 @@
-import getRandomDishes from './lib/getRandomDishes'
-
-interface Dish {
-	id: number
-	name: string
-	type: string
-	seasons: string[]
-}
+import getRandomDishes from '@/lib/getRandomDishes'
+import { Dish } from '@/types'
 
 export default async function Home() {
 	const dishes = await getRandomDishes()
