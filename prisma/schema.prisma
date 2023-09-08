@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl =  env("SHADOW_DATABASE_URL")
+}
+
+model Season {
+  id          Int         @id @default(autoincrement())
+  name        String
+  dishes      Dish[]      @relation("DishToSeason")
+  vegetables  Vegetable[] @relation("VegetableToSeason")
+}
+
+model Dish {
+  id          Int         @id @default(autoincrement())
+  name        String
+  dishType    DishType    @relation(fields: [typeId], references: [id])
+  typeId      Int
+  seasons     Season[]    @relation("DishToSeason")
+}
+
+model DishType {
+  id          Int         @id @default(autoincrement())
+  name        String
+  dishes      Dish[]
+}
+
+model Vegetable {
+  id          Int         @id @default(autoincrement())
+  name        String
+  seasons     Season[]    @relation("VegetableToSeason")
+}

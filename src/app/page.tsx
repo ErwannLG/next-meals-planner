@@ -1,10 +1,10 @@
 import getRandomDishes from '@/lib/getRandomDishes'
-import { Dish } from '@/types'
+import getRandomVegetables from '@/lib/getRandomVegetables'
+import { Dish, Vegetable } from '@/types'
 
 export default async function Home() {
 	const dishes = await getRandomDishes()
-	console.log({ dishes })
-	console.log('oi')
+	const vegetables = await getRandomVegetables()
 
 	return (
 		<main>
@@ -12,6 +12,11 @@ export default async function Home() {
 			{dishes.map((dish: Dish) => (
 				<div key={dish.id}>
 					<h2>{dish.name}</h2>
+				</div>
+			))}
+			{vegetables.map((vegetable: Vegetable) => (
+				<div key={vegetable.id}>
+					<h2>{vegetable.name}</h2>
 				</div>
 			))}
 		</main>
