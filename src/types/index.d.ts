@@ -10,3 +10,10 @@ export type Vegetable = {
 	name: string
 	seasons: string[]
 }
+
+export type Day = {
+	name: string
+	selected: boolean
+}
+
+export type Days = Day[]
