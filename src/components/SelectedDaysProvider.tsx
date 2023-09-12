@@ -1,14 +1,12 @@
 'use client'
 
 import React from 'react'
-import { Days } from '@/types'
+import { Day, Days } from '@/types'
 
 type SelectedDaysType = {
 	days: Days
-	// setDays: () => void
 	setDays: React.Dispatch<React.SetStateAction<Days>>
-
-	// selectedDays: string[]
+	selectedDays: string[]
 }
 
 const defaultState = {
@@ -49,12 +47,13 @@ const SelectedDaysContext = React.createContext<SelectedDaysType | null>(null)
 function SelectedDaysProvider({ children }: { children: React.ReactNode }) {
 	const [days, setDays] = React.useState(defaultState.days)
 
-	// new array of strings with only the selected days
-	// const selectedDays = days.filter((day) => day.selected).map(({ day }) => day)
-	// console.log(selectedDays)
+	// new array of strings with only the selected days as an array of strings: e.g. ['monday', 'thursday']
+	const selectedDays = days
+		.filter((day) => day.selected)
+		.map(({ name }) => name)
 
 	return (
-		<SelectedDaysContext.Provider value={{ days, setDays }}>
+		<SelectedDaysContext.Provider value={{ days, setDays, selectedDays }}>
 			{children}
 		</SelectedDaysContext.Provider>
 	)

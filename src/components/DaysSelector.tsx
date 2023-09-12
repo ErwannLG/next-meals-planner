@@ -3,14 +3,13 @@
 import { useSelectedDays } from '@/components/SelectedDaysProvider'
 
 function DaysSelector() {
-	const selectedDays = useSelectedDays()
-	// const { days, setDays } = useSelectedDays()
+	const daysContext = useSelectedDays()
 
-	if (!selectedDays) {
+	if (!daysContext) {
 		return null
 	}
 
-	const { days, setDays } = selectedDays
+	const { days, setDays } = daysContext
 
 	function handleDayToggle(index: number) {
 		const newDays = [...days]
