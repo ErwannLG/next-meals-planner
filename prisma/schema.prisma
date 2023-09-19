@@ -21,15 +21,7 @@ model Season {
 model Dish {
   id          Int         @id @default(autoincrement())
   name        String
-  dishType    DishType    @relation(fields: [typeId], references: [id])
-  typeId      Int
   seasons     Season[]    @relation("DishToSeason")
-}
-
-model DishType {
-  id          Int         @id @default(autoincrement())
-  name        String
-  dishes      Dish[]
 }
 
 model Vegetable {
