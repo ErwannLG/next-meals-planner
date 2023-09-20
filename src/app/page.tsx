@@ -2,7 +2,7 @@ import getRandomDishes from '@/lib/getRandomDishes'
 import getRandomVegetables from '@/lib/getRandomVegetables'
 import DaysSelector from '@/components/DaysSelector'
 import WeeklyMeals from '@/components/WeeklyMeals'
-import { Meal } from '@/types'
+import { MealType } from '@/types'
 
 export default async function Home() {
 	const dishes = await getRandomDishes()

@@ -6,9 +6,17 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
+import { DayType, DishType, MealType, VegetableType } from '@/types'
 import { Salad, Carrot } from 'lucide-react'
 
-export default function WeeklyMeals({ day, dish, vegetable }) {
+interface MealProps {
+	day: string
+	meal: MealType & { dish: { name: string }; vegetable: { name: string } }
+}
+
+export default function Meal({ day, meal }: MealProps) {
+	const { dish, vegetable } = meal
+
 	return (
 		<div className='flex-1 space-y-4 px-4 py-6 border rounded-lg shadow'>
 			<h2 className='text-2xl semi-bold tracking-tight uppercase text-slate-600 text-center'>
@@ -20,7 +28,7 @@ export default function WeeklyMeals({ day, dish, vegetable }) {
 					<Salad />
 				</CardHeader>
 				<CardContent className='text-lg font-bold text-slate-800 pt-1'>
-					<p>{dish}</p>
+					<p>{dish.name}</p>
 				</CardContent>
 			</Card>
 			<Card className='shadow-sm'>
@@ -29,7 +37,7 @@ export default function WeeklyMeals({ day, dish, vegetable }) {
 					<Carrot />
 				</CardHeader>
 				<CardContent className='text-lg font-bold text-slate-800 pt-1'>
-					<p>{vegetable}</p>
+					<p>{vegetable.name}</p>
 				</CardContent>
 			</Card>
 		</div>

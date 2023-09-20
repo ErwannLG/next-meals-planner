@@ -1,24 +1,24 @@
-export type Dish = {
+export type DishType = {
 	id: number
 	name: string
 	type: string
 	seasons: string[]
 }
 
-export type Vegetable = {
+export type VegetableType = {
 	id: number
 	name: string
 	seasons: string[]
 }
 
-export type Day = {
+export type DayType = {
 	name: string
 	selected: boolean
 }
 
-export type Days = Day[]
+export type DaysType = DayType[]
 
-export type Meal = {
+export type MealType = {
 	id: number
 	Dish
 	Vegetable
