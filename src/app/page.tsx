@@ -2,7 +2,7 @@ import getRandomDishes from '@/lib/getRandomDishes'
 import getRandomVegetables from '@/lib/getRandomVegetables'
 import DaysSelector from '@/components/DaysSelector'
 import WeeklyMeals from '@/components/WeeklyMeals'
-import { log } from 'console'
+import { Meal } from '@/types'
 
 export default async function Home() {
 	const dishes = await getRandomDishes()
@@ -33,7 +33,7 @@ export default async function Home() {
 	return (
 		<main>
 			<DaysSelector />
-			<WeeklyMeals dishes={dishes} vegetables={vegetables} />
+			<WeeklyMeals meals={meals} />
 			{/* <h1>Oi</h1>
 			{dishes.map((dish: Dish) => (
 				<div key={dish.id}>

@@ -17,3 +17,9 @@ export type Day = {
 }
 
 export type Days = Day[]
+
+export type Meal = {
+	id: number
+	Dish
+	Vegetable
+}
