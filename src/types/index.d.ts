@@ -20,6 +20,6 @@ export type DaysType = DayType[]
 
 export type MealType = {
 	id: number
-	Dish
-	Vegetable
+	dish: { name: string; locked: boolean }
+	vegetable: { name: string; locked: boolean }
 }
