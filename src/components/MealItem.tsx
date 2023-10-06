@@ -6,21 +6,20 @@ import { Button } from './ui/button'
 import { useState } from 'react'
 
 interface MealItemProps {
+	index: number
 	itemName: string
-	itemType: string
+	itemType: 'dish' | 'vegetable'
 	locked: boolean
+	toggleLock: (itemType: 'dish' | 'vegetable', index: number) => void
 }
 
 export default function MealItem({
+	index,
 	itemName,
 	itemType,
 	locked,
+	toggleLock,
 }: MealItemProps) {
-	const [isHovering, setIsHovering] = useState(false)
-
-	const handleMouseEnter = () => setIsHovering(true)
-	const handleMouseLeave = () => setIsHovering(false)
-
 	return (
 		<Card className='shadow-sm'>
 			<CardHeader className='flex flex-row items-center justify-between space-y-0 pb-4 text-slate-400'>
@@ -31,22 +30,14 @@ export default function MealItem({
 				<div className='flex gap-2'>
 					<p className='self-center'>{itemName}</p>
 					<Button
-						onMouseLeave={handleMouseLeave}
-						onMouseEnter={handleMouseEnter}
 						variant='ghost'
 						size='icon'
-						className=''
+						onClick={() => toggleLock(itemType, index)}
 					>
 						{locked ? (
-							isHovering ? (
-								<Lock className='text-green-700/40' />
-							) : (
-								<Unlock className='text-green-700/40' />
-							)
-						) : isHovering ? (
-							<Unlock className='text-green-700/40' />
-						) : (
 							<Lock className='text-green-700/40' />
+						) : (
+							<Unlock className='text-green-700/40' />
 						)}
 					</Button>
 				</div>
