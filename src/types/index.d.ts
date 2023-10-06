@@ -21,8 +21,6 @@ export type DayType = {
 	selected: boolean
 }
 
-export type DaysType = DayType[]
-
 export type MealItemType = {
 	id: number
 	name: string

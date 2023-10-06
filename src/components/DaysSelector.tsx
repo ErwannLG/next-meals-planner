@@ -1,6 +1,7 @@
 'use client'
 
 import { useSelectedDays } from '@/components/SelectedDaysProvider'
+import { DayType } from '@/types'
 
 function DaysSelector() {
 	const daysContext = useSelectedDays()
@@ -19,7 +20,7 @@ function DaysSelector() {
 
 	return (
 		<div className='flex flex-col md:flex-row md:gap-6 mb-6 md:mb-12'>
-			{days.map((day, index) => (
+			{days.map((day: DayType, index: number) => (
 				<div key={index}>
 					<label>
 						<input
