@@ -3,7 +3,6 @@
 import { Carrot, Salad, Lock, Unlock } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Button } from './ui/button'
-import { useState } from 'react'
 
 interface MealItemProps {
 	index: number
@@ -35,9 +34,9 @@ export default function MealItem({
 						onClick={() => toggleLock(itemType, index)}
 					>
 						{locked ? (
-							<Lock className='text-green-700/40' />
+							<Lock className='text-green-700/70' />
 						) : (
-							<Unlock className='text-green-700/40' />
+							<Unlock className='text-green-700/30' />
 						)}
 					</Button>
 				</div>

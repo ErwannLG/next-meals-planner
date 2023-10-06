@@ -7,20 +7,10 @@ export default async function Home() {
 	const dishes = await getRandomDishes()
 	const vegetables = await getRandomVegetables()
 
-	const meals = []
-	for (let id = 0; id <= 6; id++) {
-		const meal = {
-			id,
-			dish: { ...dishes[id], locked: false },
-			vegetable: { ...vegetables[id], locked: false },
-		}
-		meals.push(meal)
-	}
-
 	return (
 		<main>
 			<DaysSelector />
-			<WeeklyMeals meals={meals} />
+			<WeeklyMeals dishes={dishes} vegetables={vegetables} />
 		</main>
 	)
 }

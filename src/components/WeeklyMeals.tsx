@@ -1,15 +1,34 @@
 'use client'
 
 import { useSelectedDays } from './SelectedDaysProvider'
-import { MealType, MealItemType } from '@/types'
+import { MealType, MealItemType, FoodType } from '@/types'
 import Meal from './Meal'
 import { useState } from 'react'
+import { getRandomItemFromArray, shuffleArray } from '@/lib/utils'
+import { Button } from './ui/button'
+import { get } from 'http'
+import { RefreshCw } from 'lucide-react'
 
 interface Props {
-	meals: MealType[]
+	// meals: MealType[]
+	dishes: FoodType[]
+	vegetables: FoodType[]
 }
 
-export default function WeeklyMeals({ meals }: Props) {
+export default function WeeklyMeals({ dishes, vegetables }: Props) {
+	// console.log({ dishes, vegetables })
+
+	// create meals from dishes and vegetables
+	const meals = []
+	for (let id = 0; id <= 6; id++) {
+		const meal = {
+			id,
+			dish: { ...dishes[id], locked: false },
+			vegetable: { ...vegetables[id], locked: false },
+		}
+		meals.push(meal)
+	}
+
 	const [weeklyMeals, setWeeklyMeals] = useState<MealType[]>(meals)
 
 	const daysContext = useSelectedDays()
@@ -47,7 +66,30 @@ export default function WeeklyMeals({ meals }: Props) {
 		setWeeklyMeals(newMeals)
 	}
 
-	console.log({ weeklyMeals })
+	function getRandomMeals() {
+		// get dishes from meals as an array
+		const previousDishes = weeklyMeals.map((meal) => meal.dish)
+		// remove locked dishes from the previousDishes array so you don't get duplicates
+		const availableDishes = previousDishes.filter((dish) => !dish.locked)
+		const newRandomDishes = shuffleArray(availableDishes)
+
+		const newMeals: MealType[] = weeklyMeals.map((meal) => {
+			// new dish if unlocked, otherwise keep the same dish. using pop so you don't get duplicates
+			const newDish = meal.dish.locked ? meal.dish : newRandomDishes.pop()
+			// new random vegetable if unlocked
+			const newVegetable = meal.vegetable.locked
+				? meal.vegetable
+				: getRandomItemFromArray(vegetables)
+
+			return {
+				...meal,
+				dish: newDish as MealItemType,
+				vegetable: newVegetable as MealItemType,
+			}
+		})
+
+		setWeeklyMeals(newMeals)
+	}
 
 	return (
 		<>
@@ -63,6 +105,10 @@ export default function WeeklyMeals({ meals }: Props) {
 					/>
 				))}
 			</div>
+			<Button onClick={getRandomMeals} className='mt-6 gap-2'>
+				<RefreshCw size={24} />
+				Get Random Meals
+			</Button>
 		</>
 	)
 }

@@ -31,3 +31,8 @@ export function shuffleArray(array: any[]) {
 	}
 	return array
 }
+
+export function getRandomItemFromArray<T>(items: T[]): T {
+	const randomIndex = Math.floor(Math.random() * items.length)
+	return items[randomIndex]
+}
