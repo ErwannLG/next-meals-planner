@@ -3,33 +3,58 @@
 import { useSelectedDays } from './SelectedDaysProvider'
 import { MealType, MealItemType, FoodType } from '@/types'
 import Meal from './Meal'
-import { useState } from 'react'
-import { getRandomItemFromArray, shuffleArray } from '@/lib/utils'
+import { useEffect, useState } from 'react'
+import {
+	getRandomItemFromArray,
+	shuffleArray,
+	getCurrentSeason,
+} from '@/lib/utils'
 import { Button } from './ui/button'
-import { get } from 'http'
 import { RefreshCw } from 'lucide-react'
+import { Switch } from './ui/switch'
+import { Label } from './ui/label'
 
 interface Props {
-	// meals: MealType[]
 	dishes: FoodType[]
 	vegetables: FoodType[]
 }
 
 export default function WeeklyMeals({ dishes, vegetables }: Props) {
-	// console.log({ dishes, vegetables })
+	const [seasonal, setSeasonal] = useState(true)
 
-	// create meals from dishes and vegetables
-	const meals = []
-	for (let id = 0; id <= 6; id++) {
-		const meal = {
-			id,
-			dish: { ...dishes[id], locked: false },
-			vegetable: { ...vegetables[id], locked: false },
+	const currentSeason = getCurrentSeason()
+
+	const [weeklyMeals, setWeeklyMeals] = useState<MealType[]>([])
+
+	useEffect(() => {
+		// new dishes array based on seasonal choice
+		const newDishes = seasonal
+			? dishes.filter((dish) =>
+					dish.seasons.some((season) => season.name === currentSeason)
+			  )
+			: dishes
+
+		// new vegetables array based on seasonal choice
+		const newVegetables = seasonal
+			? vegetables.filter((vegetable) =>
+					vegetable.seasons.some((season) => season.name === currentSeason)
+			  )
+			: vegetables
+
+		// create meals from dishes and vegetables
+		const meals = []
+
+		for (let id = 0; id <= 6; id++) {
+			const meal = {
+				id,
+				dish: { ...newDishes[id], locked: false },
+				vegetable: { ...newVegetables[id], locked: false },
+			}
+			meals.push(meal)
 		}
-		meals.push(meal)
-	}
 
-	const [weeklyMeals, setWeeklyMeals] = useState<MealType[]>(meals)
+		setWeeklyMeals(meals)
+	}, [seasonal])
 
 	const daysContext = useSelectedDays()
 	if (!daysContext) {
@@ -105,10 +130,20 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 					/>
 				))}
 			</div>
-			<Button onClick={getRandomMeals} className='mt-6 gap-2'>
-				<RefreshCw size={24} />
-				Get Random Meals
-			</Button>
+			<div className='flex gap-4 pt-6'>
+				<Button onClick={getRandomMeals} className='gap-2 '>
+					<RefreshCw size={24} />
+					Get Random Meals
+				</Button>
+				<div className='flex items-center space-x-2'>
+					<Switch
+						id='seasonal'
+						checked={seasonal}
+						onClick={() => setSeasonal(!seasonal)}
+					/>
+					<Label htmlFor='seasonal'>Seasonal</Label>
+				</div>
+			</div>
 		</>
 	)
 }

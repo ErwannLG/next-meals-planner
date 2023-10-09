@@ -1,6 +1,5 @@
 import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
-import { Dish } from '@/types'
 
 export default async function AddDish() {
 	const addDish = async (formData: FormData) => {
