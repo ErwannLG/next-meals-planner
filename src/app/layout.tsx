@@ -2,7 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
-import SelectedDaysProvider from '@/components/SelectedDaysProvider'
+import SelectedDaysProvider from '@/contexts/selectedDays-context'
 
 const inter = Inter({ subsets: ['latin'] })
 

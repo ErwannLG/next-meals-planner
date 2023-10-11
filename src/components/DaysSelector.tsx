@@ -1,6 +1,6 @@
 'use client'
 
-import { useSelectedDays } from '@/components/SelectedDaysProvider'
+import { useSelectedDays } from '@/contexts/selectedDays-context'
 import { DayType } from '@/types'
 
 function DaysSelector() {

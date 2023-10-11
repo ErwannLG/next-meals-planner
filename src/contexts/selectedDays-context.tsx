@@ -12,6 +12,10 @@ type SelectedDaysType = {
 const defaultState = {
 	days: [
 		{
+			name: 'dimanche',
+			selected: true,
+		},
+		{
 			name: 'lundi',
 			selected: true,
 		},
@@ -29,14 +33,10 @@ const defaultState = {
 		},
 		{
 			name: 'vendredi',
-			selected: true,
-		},
-		{
-			name: 'samedi',
 			selected: false,
 		},
 		{
-			name: 'dimanche',
+			name: 'samedi',
 			selected: false,
 		},
 	],

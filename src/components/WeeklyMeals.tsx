@@ -1,9 +1,9 @@
 'use client'
 
-import { useSelectedDays } from './SelectedDaysProvider'
-import { MealType, MealItemType, FoodType } from '@/types'
-import Meal from './Meal'
 import { useState } from 'react'
+import { MealType, MealItemType, FoodType } from '@/types'
+import { useSelectedDays } from '@/contexts/selectedDays-context'
+import Meal from './Meal'
 import { getRandomItemFromArray, shuffleArray } from '@/lib/utils'
 import { Button } from './ui/button'
 import { RefreshCw } from 'lucide-react'
@@ -32,6 +32,7 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 		return null
 	}
 	const { selectedDays } = daysContext
+	console.log({ selectedDays })
 
 	function toggleLock(itemType: 'dish' | 'vegetable', index: number) {
 		let itemsArray: MealItemType[] = []
