@@ -14,6 +14,8 @@ interface Props {
 }
 
 export default function WeeklyMeals({ dishes, vegetables }: Props) {
+	console.log({ dishes }, { vegetables })
+
 	// create meals from the dishes and vegetables props to set the initial state
 	const meals = []
 	for (let id = 0; id <= 6; id++) {
@@ -32,7 +34,6 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 		return null
 	}
 	const { selectedDays } = daysContext
-	console.log({ selectedDays })
 
 	function toggleLock(itemType: 'dish' | 'vegetable', index: number) {
 		let itemsArray: MealItemType[] = []
