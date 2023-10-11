@@ -1,15 +1,3 @@
-// export type DishType = {
-// 	id: number
-// 	name: string
-// 	seasons: string[]
-// }
-
-// export type VegetableType = {
-// 	id: number
-// 	name: string
-// 	seasons: string[]
-// }
-
 export type FoodType = {
 	id: number
 	name: string

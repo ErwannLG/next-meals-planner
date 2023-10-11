@@ -28,28 +28,28 @@ export default async function AddDish() {
 			<h1>Ajouter un plat</h1>
 
 			<form action={addDish}>
-				<label htmlFor=''>Name</label>
-				<input name='name' type='text' required />
+				<label htmlFor="">Name</label>
+				<input name="name" type="text" required />
 				<fieldset>
 					<legend>Seasons</legend>
 					<div>
-						<input type='checkbox' name='season' id='spring' value={2} />
-						<label htmlFor='season'>Printemps</label>
+						<input type="checkbox" name="season" id="spring" value={2} />
+						<label htmlFor="season">Printemps</label>
 					</div>
 					<div>
-						<input type='checkbox' name='season' id='summer' value={3} />
-						<label htmlFor='summer'>Été</label>
+						<input type="checkbox" name="season" id="summer" value={3} />
+						<label htmlFor="summer">Été</label>
 					</div>
 					<div>
-						<input type='checkbox' name='season' id='fall' value={4} />
-						<label htmlFor='fall'>Automne</label>
+						<input type="checkbox" name="season" id="fall" value={4} />
+						<label htmlFor="fall">Automne</label>
 					</div>
 					<div>
-						<input type='checkbox' name='season' id='winter' value={1} />
-						<label htmlFor='winter'>Hiver</label>
+						<input type="checkbox" name="season" id="winter" value={1} />
+						<label htmlFor="winter">Hiver</label>
 					</div>
 				</fieldset>
-				<button type='submit'>Enregistrer un plat</button>
+				<button type="submit">Enregistrer un plat</button>
 			</form>
 		</div>
 	)

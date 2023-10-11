@@ -1,36 +1,36 @@
-import { MealType } from "@/types";
+import { MealType } from '@/types'
 
-import MealItem from "./MealItem";
+import MealItem from './MealItem'
 
 interface MealProps {
-  index: number;
-  day: string;
-  meal: MealType;
-  toggleLock: (itemType: "dish" | "vegetable", index: number) => void;
+	index: number
+	day: string
+	meal: MealType
+	toggleLock: (itemType: 'dish' | 'vegetable', index: number) => void
 }
 
 export default function Meal({ index, day, meal, toggleLock }: MealProps) {
-  const { dish, vegetable } = meal;
+	const { dish, vegetable } = meal
 
-  return (
-    <div className="flex-1 space-y-4 rounded-lg border px-4 py-6 shadow">
-      <h2 className="semi-bold text-center text-2xl uppercase tracking-tight text-slate-600">
-        {day} day
-      </h2>
-      <MealItem
-        index={index}
-        itemName={dish.name}
-        itemType="dish"
-        locked={dish.locked}
-        toggleLock={toggleLock}
-      />
-      <MealItem
-        index={index}
-        itemName={vegetable.name}
-        itemType="vegetable"
-        locked={vegetable.locked}
-        toggleLock={toggleLock}
-      />
-    </div>
-  );
+	return (
+		<div className="flex-1 space-y-4 rounded-lg border px-4 py-6 shadow">
+			<h2 className="semi-bold text-center text-2xl uppercase tracking-tight text-slate-600">
+				{day} day
+			</h2>
+			<MealItem
+				index={index}
+				itemName={dish.name}
+				itemType="dish"
+				locked={dish.locked}
+				toggleLock={toggleLock}
+			/>
+			<MealItem
+				index={index}
+				itemName={vegetable.name}
+				itemType="vegetable"
+				locked={vegetable.locked}
+				toggleLock={toggleLock}
+			/>
+		</div>
+	)
 }

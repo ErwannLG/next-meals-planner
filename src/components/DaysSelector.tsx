@@ -19,16 +19,16 @@ function DaysSelector() {
 	}
 
 	return (
-		<div className='flex flex-col md:flex-row md:gap-6 mb-6 md:mb-12'>
+		<div className="mb-6 flex flex-col md:mb-12 md:flex-row md:gap-6">
 			{days.map((day: DayType, index: number) => (
 				<div key={index}>
 					<label>
 						<input
-							type='checkbox'
+							type="checkbox"
 							name={day.name}
 							checked={day.selected}
 							onChange={() => handleDayToggle(index)}
-							className='mr-2'
+							className="mr-2"
 						/>
 						{day.name}
 					</label>
