@@ -3,7 +3,7 @@
 import { useSelectedDays } from '@/contexts/selectedDays-context'
 import { DayType } from '@/types'
 
-function DaysSelector() {
+export default function DaysSelector() {
 	const daysContext = useSelectedDays()
 
 	if (!daysContext) {
@@ -37,5 +37,3 @@ function DaysSelector() {
 		</div>
 	)
 }
-
-export default DaysSelector
