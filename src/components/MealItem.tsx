@@ -20,12 +20,12 @@ export default function MealItem({
 	toggleLock,
 }: MealItemProps) {
 	return (
-		<Card className="shadow-sm">
-			<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 text-slate-400">
-				<CardTitle className="text-sm font-medium">{itemType}</CardTitle>
+		<Card className="shadow-md">
+			<CardHeader className="flex flex-row items-center justify-between text-slate-400">
+				<CardTitle className="text-base font-medium">{itemType}</CardTitle>
 				{itemType === 'dish' ? <Salad /> : <Carrot />}
 			</CardHeader>
-			<CardContent className="flex justify-between pt-1 text-lg font-bold text-slate-800">
+			<CardContent className="text- flex justify-between font-bold text-slate-800">
 				<div className="flex gap-2">
 					<p className="self-center">{itemName}</p>
 					<Button

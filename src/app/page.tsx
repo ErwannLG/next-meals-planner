@@ -27,7 +27,7 @@ export default async function Home({
 			: await getRandomSeasonalVegetables()
 
 	return (
-		<main>
+		<main className="flex min-h-[95dvh] flex-col">
 			<SeasonsSelector
 				dishesSeasons={dishesSeasons}
 				vegetablesSeasons={vegetablesSeasons}

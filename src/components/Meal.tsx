@@ -13,7 +13,7 @@ export default function Meal({ index, day, meal, toggleLock }: MealProps) {
 	const { dish, vegetable } = meal
 
 	return (
-		<div className="flex-1 space-y-4 rounded-lg border px-4 py-6 shadow">
+		<div className="shrink-0 grow-0 basis-auto space-y-4 rounded-lg border px-4 py-6 shadow-lg md:w-80 lg:w-72 ">
 			<h2 className="semi-bold text-center text-2xl uppercase tracking-tight text-slate-600">
 				{day}
 			</h2>

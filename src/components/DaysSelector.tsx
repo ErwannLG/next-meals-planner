@@ -19,7 +19,7 @@ export default function DaysSelector() {
 	}
 
 	return (
-		<div className="mb-6 flex flex-col md:mb-12 md:flex-row md:gap-6">
+		<div className="mb-2 flex flex-col md:flex-row md:gap-6">
 			{days.map((day: DayType, index: number) => (
 				<div key={index}>
 					<label>
