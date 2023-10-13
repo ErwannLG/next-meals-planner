@@ -42,6 +42,8 @@ const VEGETABLES = [
 		seasons: ['spring', 'summer', 'fall', 'winter'],
 	},
 	{ id: 33, name: 'Céleri', seasons: ['spring', 'summer', 'fall', 'winter'] },
+	{ id: 34, name: 'Pâtisson', seasons: ['fall', 'winter'] },
+	{ id: 35, name: 'Salsifis', seasons: ['fall', 'winter'] },
 ]
 
 export async function GET() {

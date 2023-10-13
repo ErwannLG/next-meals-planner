@@ -33,9 +33,9 @@ export default function MealItem({
 					</span>
 				</CardTitle>
 			</CardHeader>
-			<CardContent className="text- flex h-24 justify-between font-bold text-slate-800">
-				<div className="flex gap-2">
-					<p className="self-center">{itemName}</p>
+			<CardContent className="flex h-24 justify-between font-bold text-slate-800">
+				<div className="flex gap-2 overflow-hidden text-ellipsis">
+					<p className="line-clamp-2 self-center ">{itemName}</p>
 					<Button
 						variant="ghost"
 						size="icon"
