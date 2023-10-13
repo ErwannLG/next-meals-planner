@@ -91,7 +91,7 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 
 	return (
 		<>
-			<div className="my-auto flex flex-col justify-center gap-6 py-4 md:flex-row md:flex-wrap lg:gap-3">
+			<div className="my-auto flex flex-col justify-center gap-6 py-4 md:flex-row md:flex-wrap lg:gap-4">
 				{selectedDays.map((day, index) => (
 					<Meal
 						key={day}
@@ -103,11 +103,8 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 				))}
 			</div>
 			<div className="fixed bottom-0 left-0 right-0 flex justify-center pb-2 md:static">
-				<Button onClick={getRandomMeals} className="group gap-2">
-					<RefreshCw
-						size={24}
-						className="group-hover:motion-safe:animate-spin"
-					/>
+				<Button onClick={getRandomMeals} className="gap-2">
+					<RefreshCw size={24} />
 					Nouvelles suggestions
 				</Button>
 				<div className="flex items-center space-x-2"></div>

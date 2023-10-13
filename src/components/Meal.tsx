@@ -14,10 +14,10 @@ export default function Meal({ index, day, meal, toggleLock }: MealProps) {
 
 	return (
 		<div className="shrink-0 grow-0 basis-auto rounded-lg border px-4 py-4 shadow-lg md:w-80 lg:w-64">
-			<h2 className="semi-bold text-center text-2xl uppercase tracking-tight text-slate-600">
+			<h2 className="semi-bold text-center text-lg uppercase tracking-tight text-slate-600">
 				{day}
 			</h2>
-			<article className="space-y-4 pt-4">
+			<article className="space-y-4 pt-2">
 				<MealItem
 					index={index}
 					itemName={dish.name}

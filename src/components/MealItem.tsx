@@ -33,12 +33,13 @@ export default function MealItem({
 					</span>
 				</CardTitle>
 			</CardHeader>
-			<CardContent className="text- flex justify-between font-bold text-slate-800">
+			<CardContent className="text- flex h-24 justify-between font-bold text-slate-800">
 				<div className="flex gap-2">
 					<p className="self-center">{itemName}</p>
 					<Button
 						variant="ghost"
 						size="icon"
+						className="self-center"
 						onClick={() => toggleLock(itemType, index)}
 					>
 						{locked ? (
