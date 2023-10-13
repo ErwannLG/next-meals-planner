@@ -21,8 +21,8 @@ export default function MealItem({
 }: MealItemProps) {
 	return (
 		<Card className="shadow-md">
-			<CardHeader className="bg-slate-100">
-				<CardTitle className="flex w-full justify-between self-center rounded text-base font-medium text-slate-600">
+			<CardHeader className="bg-zinc-100 dark:bg-zinc-800">
+				<CardTitle className="flex w-full justify-between self-center rounded text-base font-medium text-slate-600 dark:text-slate-400">
 					{itemType}{' '}
 					<span>
 						{itemType === 'dish' ? (
@@ -33,7 +33,7 @@ export default function MealItem({
 					</span>
 				</CardTitle>
 			</CardHeader>
-			<CardContent className="flex h-24 justify-between font-bold text-slate-800">
+			<CardContent className="flex h-24 justify-between font-bold text-foreground">
 				<div className="flex gap-2 overflow-hidden text-ellipsis">
 					<p className="line-clamp-2 self-center ">{itemName}</p>
 					<Button
@@ -43,9 +43,9 @@ export default function MealItem({
 						onClick={() => toggleLock(itemType, index)}
 					>
 						{locked ? (
-							<Lock className="text-green-700/70" />
+							<Lock className="text-green-700/70 dark:text-green-300/60" />
 						) : (
-							<Unlock className="text-green-700/30" />
+							<Unlock className="text-green-700/30 dark:text-green-300/30" />
 						)}
 					</Button>
 				</div>

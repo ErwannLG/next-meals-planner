@@ -5,6 +5,7 @@ import getRandomSeasonalVegetables from '@/lib/getRandomSeasonalVegetables'
 import SeasonsSelector from '@/components/SeasonsSelector'
 import DaysSelector from '@/components/DaysSelector'
 import WeeklyMeals from '@/components/WeeklyMeals'
+import { ModeToggle } from '@/components/ModeToggle'
 
 export default async function Home({
 	searchParams,
@@ -28,6 +29,7 @@ export default async function Home({
 
 	return (
 		<main className="flex min-h-[95dvh] flex-col">
+			<ModeToggle />
 			<SeasonsSelector
 				dishesSeasons={dishesSeasons}
 				vegetablesSeasons={vegetablesSeasons}
