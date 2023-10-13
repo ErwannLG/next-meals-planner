@@ -91,7 +91,7 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 
 	return (
 		<>
-			<div className="my-auto flex flex-col justify-center gap-6 py-4 md:flex-row md:flex-wrap">
+			<div className="my-auto flex flex-col justify-center gap-6 py-4 md:flex-row md:flex-wrap lg:gap-3">
 				{selectedDays.map((day, index) => (
 					<Meal
 						key={day}
