@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
+import AuthProvider from './AuthProvider'
 import { ThemeProvider } from '@/components/theme-provider'
 import SelectedDaysProvider from '@/contexts/selectedDays-context'
 
@@ -20,14 +21,16 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={`${inter.className} bg-background p-4 text-foreground`}>
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-					disableTransitionOnChange
-				>
-					<SelectedDaysProvider>{children}</SelectedDaysProvider>
-				</ThemeProvider>
+				<AuthProvider>
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange
+					>
+						<SelectedDaysProvider>{children}</SelectedDaysProvider>
+					</ThemeProvider>
+				</AuthProvider>
 			</body>
 		</html>
 	)
