@@ -21,19 +21,25 @@ export default function MealItem({
 }: MealItemProps) {
 	return (
 		<Card className="shadow-md">
-			<CardHeader className="bg-zinc-100 dark:bg-zinc-800">
-				<CardTitle className="flex w-full justify-between self-center rounded text-base font-medium text-slate-600 dark:text-slate-400">
+			<CardHeader className="bg-muted">
+				<CardTitle className="flex w-full justify-between self-center rounded text-base font-medium text-muted-foreground">
 					{itemType}{' '}
 					<span>
 						{itemType === 'dish' ? (
-							<Salad className="text-slate-600/40" />
+							<Salad
+								strokeWidth={1.75}
+								className="text-muted-foreground dark:text-muted-foreground/70"
+							/>
 						) : (
-							<Carrot className="text-slate-600/40" />
+							<Carrot
+								strokeWidth={1.75}
+								className="text-muted-foreground dark:text-muted-foreground/70"
+							/>
 						)}
 					</span>
 				</CardTitle>
 			</CardHeader>
-			<CardContent className="flex h-24 justify-between font-bold text-foreground">
+			<CardContent className="flex h-24 justify-between bg-card font-bold text-foreground">
 				<div className="flex gap-2 overflow-hidden text-ellipsis">
 					<p className="line-clamp-2 self-center ">{itemName}</p>
 					<Button
