@@ -4,11 +4,6 @@ export type FoodType = {
 	seasons: string[]
 }
 
-export type DayType = {
-	name: string
-	selected: boolean
-}
-
 export type MealItemType = {
 	id: number
 	name: string

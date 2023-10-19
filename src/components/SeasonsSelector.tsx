@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Button } from './ui/button'
+import { Label } from './ui/label'
 
 interface SeasonsSelectorProps {
 	dishesSeasons: 'current' | 'all' | string
@@ -18,86 +19,104 @@ export default function SeasonsSelector({
 	}
 
 	return (
-		<div className="flex gap-6 pb-4">
-			<div className="flex flex-col">
-				<h2>Plats</h2>
-				<div className="flex gap-2">
-					<Button
-						variant="outline"
-						className={`border-2 ${
-							dishesSeasons === 'current'
-								? 'border-green-600'
-								: 'border-gray-200'
-						}`}
-						asChild
-					>
-						<Link
-							href={`?${new URLSearchParams({
-								dishesSeasons: 'current',
-								vegetablesSeasons,
-							}).toString()}`}
-						>
-							Plats de saison
-						</Link>
-					</Button>
-					<Button
-						variant="outline"
-						className={`border-2 ${
-							dishesSeasons === 'all' ? 'border-green-600' : 'border-gray-200'
-						}`}
-						asChild
-					>
-						<Link
-							href={`?${new URLSearchParams({
-								dishesSeasons: 'all',
-								vegetablesSeasons,
-							})}`}
-						>
-							Tous les plats
-						</Link>
-					</Button>
-				</div>
+		<div className="grid gap-4">
+			<div className="space-y-2">
+				<h4 className="font-medium leading-none">Options</h4>
+				<p className="text-sm text-muted-foreground">
+					Choisir si vous voulez des plats et légumes de saison et indiquer que
+					le nombre de jours désirés.
+				</p>
 			</div>
-
-			<div className="flex flex-col">
-				<h2>Légumes</h2>
-				<div className="flex gap-2">
-					<Button
-						variant="outline"
-						className={`border-2 ${
-							vegetablesSeasons === 'current'
-								? 'border-green-600'
-								: 'border-gray-200'
-						}`}
-						asChild
+			<div className="grid gap-2">
+				<div className="grid grid-cols-3 items-center gap-4">
+					<Label htmlFor="dishes_seasons">Plats</Label>
+					<div
+						className="grid min-w-max gap-2 min-[350px]:grid-cols-2"
+						id="dishes_seasons"
 					>
-						<Link
-							href={`?${new URLSearchParams({
-								dishesSeasons,
-								vegetablesSeasons: 'current',
-							}).toString()}`}
+						<Button
+							variant="outline"
+							size="sm"
+							className={`border-2 ${
+								dishesSeasons === 'current'
+									? 'border-green-600'
+									: 'border-gray-200'
+							}`}
+							asChild
 						>
-							Légumes de saison
-						</Link>
-					</Button>
-					<Button
-						variant="outline"
-						className={`border-2 ${
-							vegetablesSeasons === 'all'
-								? 'border-green-600'
-								: 'border-gray-200'
-						}`}
-						asChild
+							<Link
+								href={`?${new URLSearchParams({
+									dishesSeasons: 'current',
+									vegetablesSeasons,
+								}).toString()}`}
+							>
+								de saison
+							</Link>
+						</Button>
+						<Button
+							variant="outline"
+							size="sm"
+							className={`border-2 ${
+								dishesSeasons === 'all' ? 'border-green-600' : 'border-gray-200'
+							}`}
+							asChild
+						>
+							<Link
+								href={`?${new URLSearchParams({
+									dishesSeasons: 'all',
+									vegetablesSeasons,
+								})}`}
+							>
+								tous
+							</Link>
+						</Button>
+					</div>
+				</div>
+				<div className="grid grid-cols-3 items-center gap-4">
+					<Label htmlFor="vegetables_seasons">Légumes</Label>
+					<div
+						className="grid min-w-max gap-2 min-[350px]:grid-cols-2"
+						id="vegetables_seasons"
 					>
-						<Link
-							href={`?${new URLSearchParams({
-								dishesSeasons,
-								vegetablesSeasons: 'all',
-							})}`}
+						<Button
+							variant="outline"
+							size="sm"
+							className={`border-2 ${
+								vegetablesSeasons === 'current'
+									? 'border-green-600'
+									: 'border-gray-200'
+							}`}
+							asChild
 						>
-							Tous les légumes
-						</Link>
-					</Button>
+							<Link
+								href={`?${new URLSearchParams({
+									dishesSeasons,
+									vegetablesSeasons: 'current',
+								}).toString()}`}
+							>
+								de saison
+							</Link>
+						</Button>
+						<Button
+							variant="outline"
+							size="sm"
+							className={`border-2 ${
+								vegetablesSeasons === 'all'
+									? 'border-green-600'
+									: 'border-gray-200'
+							}`}
+							asChild
+						>
+							<Link
+								href={`?${new URLSearchParams({
+									dishesSeasons,
+									vegetablesSeasons: 'all',
+								})}`}
+							>
+								tous
+							</Link>
+						</Button>
+					</div>
 				</div>
 			</div>
 		</div>

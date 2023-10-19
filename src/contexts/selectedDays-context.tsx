@@ -1,59 +1,29 @@
 'use client'
 
 import React from 'react'
-import { DayType } from '@/types'
 
 type SelectedDaysType = {
-	days: DayType[]
-	setDays: React.Dispatch<React.SetStateAction<DayType[]>>
-	selectedDays: string[]
-}
-
-const defaultState = {
-	days: [
-		{
-			name: 'dimanche',
-			selected: true,
-		},
-		{
-			name: 'lundi',
-			selected: true,
-		},
-		{
-			name: 'mardi',
-			selected: true,
-		},
-		{
-			name: 'mercredi',
-			selected: true,
-		},
-		{
-			name: 'jeudi',
-			selected: true,
-		},
-		{
-			name: 'vendredi',
-			selected: false,
-		},
-		{
-			name: 'samedi',
-			selected: false,
-		},
-	],
+	days: string[]
+	numberOfDays: number
+	setNumberOfDays: React.Dispatch<React.SetStateAction<number>>
 }
 
 const SelectedDaysContext = React.createContext<SelectedDaysType | null>(null)
 
 function SelectedDaysProvider({ children }: { children: React.ReactNode }) {
-	const [days, setDays] = React.useState(defaultState.days)
+	const [numberOfDays, setNumberOfDays] = React.useState(5)
 
-	// new array of strings with only the selected days as an array of strings: e.g. ['monday', 'thursday']
-	const selectedDays = days
-		.filter((day) => day.selected)
-		.map(({ name }) => name)
+	// create an array of strings for the defined number of days (e.g. ['Jour 1', 'Jour 2', 'Jour 3' etc.])
+	let days = []
+	for (let id = 1; id <= numberOfDays; id++) {
+		const day = `Jour ${id}`
+		days.push(day)
+	}
 
 	return (
-		<SelectedDaysContext.Provider value={{ days, setDays, selectedDays }}>
+		<SelectedDaysContext.Provider
+			value={{ numberOfDays, setNumberOfDays, days }}
+		>
 			{children}
 		</SelectedDaysContext.Provider>
 	)

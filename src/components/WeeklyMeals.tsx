@@ -33,7 +33,9 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 	if (!daysContext) {
 		return null
 	}
-	const { selectedDays } = daysContext
+	// const { selectedDays } = daysContext
+	const { days } = daysContext
+	console.log({ days })
 
 	function toggleLock(itemType: 'dish' | 'vegetable', index: number) {
 		let itemsArray: MealItemType[] = []
@@ -92,9 +94,9 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 	return (
 		<>
 			<div className="my-auto flex flex-col justify-center gap-6 py-4 md:flex-row md:flex-wrap lg:gap-4">
-				{selectedDays.map((day, index) => (
+				{days.map((day, index) => (
 					<Meal
-						key={day}
+						key={index}
 						day={day}
 						index={index}
 						meal={weeklyMeals[index]}

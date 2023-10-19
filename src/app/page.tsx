@@ -2,8 +2,7 @@ import getRandomDishes from '@/lib/getRandomDishes'
 import getRandomSeasonalDishes from '@/lib/getRandomSeasonalDishes'
 import getRandomVegetables from '@/lib/getRandomVegetables'
 import getRandomSeasonalVegetables from '@/lib/getRandomSeasonalVegetables'
-import SeasonsSelector from '@/components/SeasonsSelector'
-import DaysSelector from '@/components/DaysSelector'
+import Options from '@/components/Options'
 import WeeklyMeals from '@/components/WeeklyMeals'
 import { ModeToggle } from '@/components/ModeToggle'
 
@@ -16,8 +15,6 @@ export default async function Home({
 	const vegetablesSeasons = (searchParams.vegetablesSeasons ||
 		'current') as string
 
-	console.log({ dishesSeasons }, { vegetablesSeasons })
-
 	const dishes =
 		dishesSeasons === 'all'
 			? await getRandomDishes()
@@ -29,12 +26,13 @@ export default async function Home({
 
 	return (
 		<main className="flex min-h-[95dvh] flex-col">
-			<ModeToggle />
-			<SeasonsSelector
-				dishesSeasons={dishesSeasons}
-				vegetablesSeasons={vegetablesSeasons}
-			/>
-			<DaysSelector />
+			<nav className="flex justify-end gap-2">
+				<ModeToggle />
+				<Options
+					dishesSeasons={dishesSeasons}
+					vegetablesSeasons={vegetablesSeasons}
+				/>
+			</nav>
 			<WeeklyMeals dishes={dishes} vegetables={vegetables} />
 		</main>
 	)
