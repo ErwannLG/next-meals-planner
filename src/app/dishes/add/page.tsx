@@ -1,7 +1,20 @@
 import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { redirect } from 'next/navigation'
 
 export default async function AddDish() {
+	const session = await getServerSession(authOptions)
+
+	if (!session) {
+		redirect('/api/auth/signin')
+	}
+
+	if (session.user?.role !== 'OWNER') {
+		return <div>Not authorized</div>
+	}
+
 	const addDish = async (formData: FormData) => {
 		'use server'
 		console.log(formData)
