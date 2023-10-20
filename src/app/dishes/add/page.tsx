@@ -11,22 +11,18 @@ export default async function AddDish() {
 		redirect('/api/auth/signin')
 	}
 
-	if (session.user?.role !== 'OWNER') {
-		return <div>Not authorized</div>
-	}
-
 	const addDish = async (formData: FormData) => {
 		'use server'
-		console.log(formData)
 
+		const userId = session.user?.id
 		const seasons = formData.getAll('season')
 		// convert seasons to an array of integers
 		const seasonIds = seasons.map((season) => parseInt(season as string))
-		console.log({ seasonIds })
 
 		await prisma.dish.create({
 			data: {
 				name: formData.get('name') as string,
+				userId: userId as string,
 				seasons: {
 					connect: seasonIds.map((id) => ({ id })),
 				},

@@ -22,12 +22,16 @@ model Dish {
   id      Int      @id @default(autoincrement())
   name    String
   seasons Season[] @relation("DishToSeason")
+  userId  String?
+  User    User?    @relation(fields: [userId], references: [id])
 }
 
 model Vegetable {
   id      Int      @id @default(autoincrement())
   name    String
   seasons Season[] @relation("VegetableToSeason")
+  userId  String?
+  User    User?    @relation(fields: [userId], references: [id])
 }
 
 // NextAuth Schema
@@ -77,8 +81,10 @@ model User {
 
   role UserRole @default(USER)
 
-  accounts Account[]
-  sessions Session[]
+  accounts  Account[]
+  sessions  Session[]
+  Dish      Dish[]
+  Vegetable Vegetable[]
 }
 
 model VerificationToken {
