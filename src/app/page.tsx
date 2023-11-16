@@ -5,6 +5,10 @@ import getRandomSeasonalVegetables from '@/lib/getRandomSeasonalVegetables'
 import Options from '@/components/Options'
 import WeeklyMeals from '@/components/WeeklyMeals'
 import { ModeToggle } from '@/components/ModeToggle'
+import { SignInButton, SignOutButton } from '@/components/logButtons'
+import AuthCheck from '@/components/AuthCheck'
+import AddMenu from '@/components/AddMenu'
+import AppNav from '@/components/AppNav'
 
 export default async function Home({
 	searchParams,
@@ -26,13 +30,10 @@ export default async function Home({
 
 	return (
 		<main className="flex min-h-[95dvh] flex-col">
-			<nav className="flex justify-end gap-2">
-				<ModeToggle />
-				<Options
-					dishesSeasons={dishesSeasons}
-					vegetablesSeasons={vegetablesSeasons}
-				/>
-			</nav>
+			<AppNav
+				dishesSeasons={dishesSeasons}
+				vegetablesSeasons={vegetablesSeasons}
+			/>
 			<WeeklyMeals dishes={dishes} vegetables={vegetables} />
 		</main>
 	)

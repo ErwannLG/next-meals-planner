@@ -24,7 +24,7 @@ export default function Options({
 			<PopoverTrigger asChild>
 				<Button variant="outline" size="icon">
 					<Settings className="h-[1.2rem] w-[1.2rem]" />
-					<span className="sr-only">Toggle theme</span>
+					<span className="sr-only">Toggle Options</span>
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className="w-80">

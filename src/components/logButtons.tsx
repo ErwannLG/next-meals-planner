@@ -15,14 +15,15 @@ export function SignInButton() {
 
 	if (status === 'authenticated') {
 		return (
-			<Link href={`/dashboard`}>
-				<Image
-					src={session.user?.image ?? '/default-avatar.png'}
-					width={32}
-					height={32}
-					alt="Your Name"
-				/>
-			</Link>
+			<></>
+			// <Link href={`/dashboard`}>
+			// 	<Image
+			// 		src={session.user?.image ?? '/default-avatar.png'}
+			// 		width={32}
+			// 		height={32}
+			// 		alt="Your Name"
+			// 	/>
+			// </Link>
 		)
 	}
 

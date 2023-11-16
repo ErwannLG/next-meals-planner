@@ -1,5 +1,9 @@
+const dynamic = 'force-dynamic'
+
 import { prisma } from '@/lib/prisma'
+import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
+import { authOptions } from '../auth/[...nextauth]/route'
 
 // const dishes = [
 // 	{
@@ -66,9 +70,18 @@ import { NextResponse } from 'next/server'
 // }
 
 export async function GET() {
+	const session = await getServerSession(authOptions)
+
+	if (!session) {
+		const dishes = await prisma.dish.findMany()
+	}
+
 	const dishes = await prisma.dish.findMany({
-		include: {
-			seasons: true,
+		where: {
+			OR: [
+				{ userId: session.user?.id },
+				{ userId: 'clnyd3vcw0000elng2p19k1rr' },
+			],
 		},
 	})
 	console.log(dishes)
