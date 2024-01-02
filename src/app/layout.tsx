@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
+import { ClerkProvider } from '@clerk/nextjs'
 import { ThemeProvider } from '@/components/theme-provider'
 import SelectedDaysProvider from '@/contexts/selectedDays-context'
 
@@ -18,17 +19,21 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en">
-			<body className={`${inter.className} bg-background p-4 text-foreground`}>
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-					disableTransitionOnChange
+		<ClerkProvider>
+			<html lang="en">
+				<body
+					className={`${inter.className} bg-background p-4 text-foreground`}
 				>
-					<SelectedDaysProvider>{children}</SelectedDaysProvider>
-				</ThemeProvider>
-			</body>
-		</html>
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange
+					>
+						<SelectedDaysProvider>{children}</SelectedDaysProvider>
+					</ThemeProvider>
+				</body>
+			</html>
+		</ClerkProvider>
 	)
 }

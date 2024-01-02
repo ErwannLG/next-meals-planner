@@ -5,6 +5,7 @@ import getRandomSeasonalVegetables from '@/lib/getRandomSeasonalVegetables'
 import Options from '@/components/Options'
 import WeeklyMeals from '@/components/WeeklyMeals'
 import { ModeToggle } from '@/components/ModeToggle'
+import { UserButton, SignInButton } from '@clerk/nextjs'
 
 export default async function Home({
 	searchParams,
@@ -32,6 +33,8 @@ export default async function Home({
 					dishesSeasons={dishesSeasons}
 					vegetablesSeasons={vegetablesSeasons}
 				/>
+				<SignInButton />
+				<UserButton afterSignoutUrl="/" />
 			</nav>
 			<WeeklyMeals dishes={dishes} vegetables={vegetables} />
 		</main>
