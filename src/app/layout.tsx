@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { ThemeProvider } from '@/components/theme-provider'
 import SelectedDaysProvider from '@/contexts/selectedDays-context'
+import { Toaster } from '@/components/ui/sonner'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,6 +33,7 @@ export default function RootLayout({
 						disableTransitionOnChange
 					>
 						<SelectedDaysProvider>{children}</SelectedDaysProvider>
+						<Toaster />
 					</ThemeProvider>
 				</body>
 			</html>

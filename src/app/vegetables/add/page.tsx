@@ -1,8 +1,8 @@
 export default function AddVegetable() {
 	return (
 		<div>
-			<h1>Ajouter un légume</h1>
-			<p>Cette page est en cours de développement.</p>
+			<h1>Ajouter un lÃ©gume</h1>
+			<p>Cette page est en cours de dÃ©veloppement.</p>
 		</div>
 	)
 }

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 interface DeleteVegetableButtonProps {
   vegetableId: number;
@@ -18,26 +19,35 @@ export function DeleteVegetableButton({
   const router = useRouter();
 
   const handleDelete = async () => {
-    if (!confirm(`Êtes-vous sûr de vouloir supprimer "${vegetableName}" ?`)) {
-      return;
-    }
+    toast(`Supprimer "${vegetableName}" ?`, {
+      description: 'Cette action est irréversible.',
+      action: {
+        label: 'Supprimer',
+        onClick: async () => {
+          setIsDeleting(true);
 
-    setIsDeleting(true);
+          try {
+            const response = await fetch(`/api/vegetables/${vegetableId}`, {
+              method: 'DELETE',
+            });
 
-    try {
-      const response = await fetch(`/api/vegetables/${vegetableId}`, {
-        method: 'DELETE',
-      });
+            if (!response.ok) {
+              throw new Error('Erreur lors de la suppression');
+            }
 
-      if (!response.ok) {
-        throw new Error('Erreur lors de la suppression');
-      }
-
-      router.refresh();
-    } catch (error) {
-      alert('Erreur lors de la suppression du légume');
-      setIsDeleting(false);
-    }
+            toast.success('Légume supprimé avec succès');
+            router.refresh();
+          } catch (error) {
+            toast.error('Erreur lors de la suppression du légume');
+            setIsDeleting(false);
+          }
+        },
+      },
+      cancel: {
+        label: 'Annuler',
+        onClick: () => {},
+      },
+    });
   };
 
   return (
