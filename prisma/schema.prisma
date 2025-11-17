@@ -22,10 +22,33 @@ model Dish {
   id          Int         @id @default(autoincrement())
   name        String
   seasons     Season[]    @relation("DishToSeason")
+  menuItems   MenuItem[]
 }
 
 model Vegetable {
   id          Int         @id @default(autoincrement())
   name        String
   seasons     Season[]    @relation("VegetableToSeason")
+  menuItems   MenuItem[]
+}
+
+model MenuHistory {
+  id           Int        @id @default(autoincrement())
+  userId       String
+  validatedAt  DateTime   @default(now())
+  numberOfDays Int
+  items        MenuItem[]
+
+  @@index([userId])
+}
+
+model MenuItem {
+  id            Int         @id @default(autoincrement())
+  menuHistory   MenuHistory @relation(fields: [menuHistoryId], references: [id], onDelete: Cascade)
+  menuHistoryId Int
+  dayNumber     Int
+  dishId        Int
+  vegetableId   Int
+  dish          Dish        @relation(fields: [dishId], references: [id])
+  vegetable     Vegetable   @relation(fields: [vegetableId], references: [id])
 }

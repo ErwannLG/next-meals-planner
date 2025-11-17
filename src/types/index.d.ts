@@ -15,3 +15,26 @@ export type MealType = {
 	dish: MealItemType
 	vegetable: MealItemType
 }
+
+export type MenuItemType = {
+	id: number
+	dayNumber: number
+	dishId: number
+	vegetableId: number
+	dish: {
+		id: number
+		name: string
+	}
+	vegetable: {
+		id: number
+		name: string
+	}
+}
+
+export type MenuHistoryType = {
+	id: number
+	userId: string
+	validatedAt: Date
+	numberOfDays: number
+	items: MenuItemType[]
+}

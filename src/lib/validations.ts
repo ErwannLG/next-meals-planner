@@ -18,6 +18,19 @@ export const seasonQuerySchema = z.object({
 	vegetablesSeasons: z.enum(['current', 'all']).optional().default('current'),
 })
 
+// Validation schema for saving a validated menu
+export const saveMenuSchema = z.object({
+	numberOfDays: z.number().int().min(1).max(7),
+	items: z.array(
+		z.object({
+			dayNumber: z.number().int().min(1).max(7),
+			dishId: z.number().int().positive(),
+			vegetableId: z.number().int().positive(),
+		})
+	).min(1, 'Le menu doit contenir au moins un jour'),
+})
+
 // Type inference from schemas
 export type AddDishInput = z.infer<typeof addDishSchema>
 export type SeasonQuery = z.infer<typeof seasonQuerySchema>
+export type SaveMenuInput = z.infer<typeof saveMenuSchema>
