@@ -1,12 +1,29 @@
 import { shuffleArray } from './utils'
 import { FoodType } from '@/types'
+import { getBaseUrl } from './api-url'
 
-export default async function getRandomVegetables() {
-	const vegetables: FoodType[] = await fetch(
-		'http://localhost:3000/api/vegetables'
-	).then((res) => res.json())
+export default async function getRandomVegetables(): Promise<FoodType[]> {
+	try {
+		const response = await fetch(`${getBaseUrl()}/api/vegetables`, {
+			cache: 'no-store',
+		})
 
-	const shuffledVegetables = shuffleArray(vegetables)
+		if (!response.ok) {
+			throw new Error(
+				`Failed to fetch vegetables: ${response.status} ${response.statusText}`
+			)
+		}
 
-	return shuffledVegetables
+		const vegetables: FoodType[] = await response.json()
+
+		if (!Array.isArray(vegetables) || vegetables.length === 0) {
+			console.warn('No vegetables found, returning empty array')
+			return []
+		}
+
+		return shuffleArray(vegetables)
+	} catch (error) {
+		console.error('Error fetching vegetables:', error)
+		return []
+	}
 }

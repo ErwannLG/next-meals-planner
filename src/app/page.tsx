@@ -34,7 +34,7 @@ export default async function Home({
 					vegetablesSeasons={vegetablesSeasons}
 				/>
 				<SignInButton />
-				<UserButton afterSignoutUrl="/" />
+				<UserButton afterSignOutUrl="/" />
 			</nav>
 			<WeeklyMeals dishes={dishes} vegetables={vegetables} />
 		</main>

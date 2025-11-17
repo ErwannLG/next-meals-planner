@@ -19,12 +19,17 @@ export default function MealItem({
 	locked,
 	toggleLock,
 }: MealItemProps) {
+	const itemTypeLabel = itemType === 'dish' ? 'Plat' : 'Légume'
+	const lockButtonLabel = locked
+		? `Déverrouiller ${itemTypeLabel.toLowerCase()}`
+		: `Verrouiller ${itemTypeLabel.toLowerCase()}`
+
 	return (
 		<Card className="shadow-md">
 			<CardHeader className="bg-muted">
 				<CardTitle className="flex w-full justify-between self-center rounded text-base font-medium text-muted-foreground">
-					{itemType}{' '}
-					<span>
+					<span id={`${itemType}-${index}-type`}>{itemTypeLabel}</span>
+					<span aria-hidden="true">
 						{itemType === 'dish' ? (
 							<Salad
 								strokeWidth={1.75}
@@ -41,17 +46,33 @@ export default function MealItem({
 			</CardHeader>
 			<CardContent className="flex h-24 justify-between bg-card font-bold text-foreground">
 				<div className="flex gap-2 overflow-hidden text-ellipsis">
-					<p className="line-clamp-2 self-center ">{itemName}</p>
+					<p
+						className="line-clamp-2 self-center"
+						id={`${itemType}-${index}-name`}
+						aria-label={`${itemTypeLabel}: ${itemName}`}
+					>
+						{itemName}
+					</p>
 					<Button
 						variant="ghost"
 						size="icon"
 						className="self-center"
 						onClick={() => toggleLock(itemType, index)}
+						aria-label={lockButtonLabel}
+						aria-pressed={locked}
+						aria-describedby={`${itemType}-${index}-name`}
+						title={lockButtonLabel}
 					>
 						{locked ? (
-							<Lock className="text-green-700/70 dark:text-green-300/60" />
+							<Lock
+								className="text-green-700/70 dark:text-green-300/60"
+								aria-hidden="true"
+							/>
 						) : (
-							<Unlock className="text-green-700/30 dark:text-green-300/30" />
+							<Unlock
+								className="text-green-700/30 dark:text-green-300/30"
+								aria-hidden="true"
+							/>
 						)}
 					</Button>
 				</div>

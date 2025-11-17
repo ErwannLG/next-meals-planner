@@ -47,5 +47,13 @@ const VEGETABLES = [
 ]
 
 export async function GET() {
-	return NextResponse.json(VEGETABLES)
+	try {
+		return NextResponse.json(VEGETABLES)
+	} catch (error) {
+		console.error('Error returning vegetables:', error)
+		return NextResponse.json(
+			{ error: 'Failed to fetch vegetables' },
+			{ status: 500 }
+		)
+	}
 }

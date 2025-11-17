@@ -3,21 +3,35 @@ import { NextResponse } from 'next/server'
 import { getCurrentSeason } from '@/lib/utils'
 
 export async function GET() {
-	const currentSeason = getCurrentSeason()
+	try {
+		const currentSeason = getCurrentSeason()
 
-	const dishes = await prisma.dish.findMany({
-		include: {
-			seasons: true,
-		},
-		where: {
-			seasons: {
-				some: {
-					name: currentSeason,
+		if (!currentSeason) {
+			return NextResponse.json(
+				{ error: 'Could not determine current season' },
+				{ status: 400 }
+			)
+		}
+
+		const dishes = await prisma.dish.findMany({
+			include: {
+				seasons: true,
+			},
+			where: {
+				seasons: {
+					some: {
+						name: currentSeason,
+					},
 				},
 			},
-		},
-	})
-	console.log(dishes)
+		})
 
-	return NextResponse.json(dishes)
+		return NextResponse.json(dishes)
+	} catch (error) {
+		console.error('Error fetching seasonal dishes from database:', error)
+		return NextResponse.json(
+			{ error: 'Failed to fetch seasonal dishes' },
+			{ status: 500 }
+		)
+	}
 }
