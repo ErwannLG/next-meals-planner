@@ -38,3 +38,15 @@ export type MenuHistoryType = {
 	numberOfDays: number
 	items: MenuItemType[]
 }
+
+export type ShoppingListItemType = {
+	vegetableId: number
+	vegetableName: string
+	count: number // Number of times this vegetable appears in the menu
+}
+
+export type ShoppingListType = {
+	menuHistoryId: number
+	items: ShoppingListItemType[]
+	servings: number // Multiplier for quantities
+}
