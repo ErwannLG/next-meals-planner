@@ -97,7 +97,10 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 
 	return (
 		<>
-			<div className="my-auto flex flex-col justify-center gap-6 py-4 md:flex-row md:flex-wrap lg:gap-4">
+			<section
+				className="my-auto flex flex-col justify-center gap-6 py-4 md:flex-row md:flex-wrap lg:gap-4"
+				aria-label="Planning des repas de la semaine"
+			>
 				{days.map((day, index) => (
 					<Meal
 						key={index}
@@ -107,10 +110,18 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 						toggleLock={toggleLock}
 					/>
 				))}
-			</div>
-			<div className="fixed bottom-0 left-0 right-0 flex justify-center pb-2 md:static">
-				<Button onClick={getRandomMeals} className="gap-2">
-					<RefreshCw size={24} />
+			</section>
+			<div
+				className="fixed bottom-0 left-0 right-0 flex justify-center pb-2 md:static"
+				role="toolbar"
+				aria-label="Actions du planning"
+			>
+				<Button
+					onClick={getRandomMeals}
+					className="gap-2"
+					aria-label="Générer de nouvelles suggestions de repas"
+				>
+					<RefreshCw size={24} aria-hidden="true" />
 					Nouvelles suggestions
 				</Button>
 			</div>
