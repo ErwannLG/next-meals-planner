@@ -5,17 +5,17 @@ import getRandomSeasonalVegetables from '@/lib/getRandomSeasonalVegetables'
 import Options from '@/components/Options'
 import WeeklyMeals from '@/components/WeeklyMeals'
 import { ModeToggle } from '@/components/ModeToggle'
-import { UserButton, SignInButton, auth } from '@clerk/nextjs'
+import { UserButton, SignInButton, currentUser } from '@clerk/nextjs'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { History } from 'lucide-react'
+import { Settings, History } from 'lucide-react'
 
 export default async function Home({
 	searchParams,
 }: {
 	searchParams: { [key: string]: string | string[] | undefined }
 }) {
-	const { userId } = auth()
+	const user = await currentUser()
 	const dishesSeasons = (searchParams.dishesSeasons || 'current') as string
 	const vegetablesSeasons = (searchParams.vegetablesSeasons ||
 		'current') as string
@@ -37,12 +37,21 @@ export default async function Home({
 					dishesSeasons={dishesSeasons}
 					vegetablesSeasons={vegetablesSeasons}
 				/>
-				{userId && (
-					<Link href="/history">
-						<Button variant="outline" size="icon" aria-label="Voir l'historique de mes menus">
-							<History size={20} />
-						</Button>
-					</Link>
+				{user && (
+					<>
+						<Link href="/history">
+							<Button variant="outline" size="icon" aria-label="Voir l'historique de mes menus">
+								<History className="h-[1.2rem] w-[1.2rem]" />
+								<span className="sr-only">Historique des menus</span>
+							</Button>
+						</Link>
+						<Link href="/admin">
+							<Button variant="outline" size="icon" aria-label="Dashboard Admin">
+								<Settings className="h-[1.2rem] w-[1.2rem]" />
+								<span className="sr-only">Admin Dashboard</span>
+							</Button>
+						</Link>
+					</>
 				)}
 				<SignInButton />
 				<UserButton afterSignOutUrl="/" />

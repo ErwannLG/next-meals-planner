@@ -1,4 +1,4 @@
-import { auth } from '@clerk/nextjs'
+import { currentUser } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import MenuHistoryList from '@/components/MenuHistoryList'
@@ -7,15 +7,15 @@ import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
 
 export default async function HistoryPage() {
-	const { userId } = auth()
+	const user = await currentUser()
 
-	if (!userId) {
+	if (!user) {
 		redirect('/')
 	}
 
 	const menuHistory = await prisma.menuHistory.findMany({
 		where: {
-			userId,
+			userId: user.id,
 		},
 		include: {
 			items: {
