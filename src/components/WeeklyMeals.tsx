@@ -8,6 +8,7 @@ import Meal from './Meal'
 import { shuffleArray } from '@/lib/utils'
 import { Button } from './ui/button'
 import { RefreshCw, Check } from 'lucide-react'
+import { toast } from 'sonner'
 
 interface Props {
 	dishes: FoodType[]
@@ -101,7 +102,7 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 
 	async function saveMenu() {
 		if (!isSignedIn) {
-			alert('Vous devez être connecté pour sauvegarder un menu')
+			toast.error('Vous devez être connecté pour sauvegarder un menu')
 			return
 		}
 
@@ -130,11 +131,12 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 				throw new Error('Erreur lors de la sauvegarde')
 			}
 
+			toast.success('Menu sauvegardé avec succès')
 			setSaveSuccess(true)
 			setTimeout(() => setSaveSuccess(false), 3000)
 		} catch (error) {
 			console.error('Error saving menu:', error)
-			alert('Erreur lors de la sauvegarde du menu')
+			toast.error('Erreur lors de la sauvegarde du menu')
 		} finally {
 			setIsSaving(false)
 		}

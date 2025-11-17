@@ -43,7 +43,7 @@ export default function MenuHistoryList({ menuHistory }: Props) {
 				return (
 					<div
 						key={menu.id}
-						className="rounded-lg border bg-card p-4 shadow-sm"
+						className="rounded-lg border bg-card p-4 shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/30"
 					>
 						<div className="flex items-center justify-between">
 							<div>
@@ -73,7 +73,7 @@ export default function MenuHistoryList({ menuHistory }: Props) {
 								{menu.items.map((item) => (
 									<div
 										key={item.id}
-										className="flex items-center justify-between rounded-md bg-muted/50 p-3"
+										className="flex items-center justify-between rounded-md bg-muted/50 p-3 transition-all duration-200 hover:bg-muted/70"
 									>
 										<span className="font-medium">Jour {item.dayNumber}</span>
 										<div className="flex flex-col items-end gap-1 text-sm">
