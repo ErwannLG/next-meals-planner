@@ -9,12 +9,12 @@ export default function NotFound() {
 				<h1 className="text-6xl font-bold text-muted-foreground">404</h1>
 				<h2 className="text-2xl font-bold">Page non trouvée</h2>
 				<p className="text-muted-foreground">
-					Désolé, la page que vous recherchez n'existe pas ou a été déplacée.
+					Désolé, la page que vous recherchez n&apos;existe pas ou a été déplacée.
 				</p>
 				<Button asChild className="mt-4">
 					<Link href="/" className="gap-2">
 						<Home size={20} aria-hidden="true" />
-						Retour à l'accueil
+						Retour à l&apos;accueil
 					</Link>
 				</Button>
 			</div>
