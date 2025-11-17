@@ -7,9 +7,10 @@ interface MealProps {
 	day: string
 	meal: MealType
 	toggleLock: (itemType: 'dish' | 'vegetable', index: number) => void
+	onPreferenceChange?: (itemType: 'dish' | 'vegetable', itemId: number, preference: 'FAVORITE' | 'DISLIKED' | null) => void
 }
 
-export default function Meal({ index, day, meal, toggleLock }: MealProps) {
+export default function Meal({ index, day, meal, toggleLock, onPreferenceChange }: MealProps) {
 	const { dish, vegetable } = meal
 
 	return (
@@ -26,17 +27,23 @@ export default function Meal({ index, day, meal, toggleLock }: MealProps) {
 			<div className="space-y-4 pt-2">
 				<MealItem
 					index={index}
+					itemId={dish.id}
 					itemName={dish.name}
 					itemType="dish"
 					locked={dish.locked}
+					preference={dish.preference}
 					toggleLock={toggleLock}
+					onPreferenceChange={onPreferenceChange}
 				/>
 				<MealItem
 					index={index}
+					itemId={vegetable.id}
 					itemName={vegetable.name}
 					itemType="vegetable"
 					locked={vegetable.locked}
+					preference={vegetable.preference}
 					toggleLock={toggleLock}
+					onPreferenceChange={onPreferenceChange}
 				/>
 			</div>
 		</article>

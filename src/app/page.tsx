@@ -8,7 +8,7 @@ import { ModeToggle } from '@/components/ModeToggle'
 import { UserButton, SignInButton, currentUser } from '@clerk/nextjs'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Settings, History } from 'lucide-react'
+import { Settings, History, Heart } from 'lucide-react'
 
 export default async function Home({
 	searchParams,
@@ -39,6 +39,12 @@ export default async function Home({
 				/>
 				{user && (
 					<>
+						<Link href="/preferences">
+							<Button variant="outline" size="icon" aria-label="Gérer mes préférences">
+								<Heart className="h-[1.2rem] w-[1.2rem]" />
+								<span className="sr-only">Mes préférences</span>
+							</Button>
+						</Link>
 						<Link href="/history">
 							<Button variant="outline" size="icon" aria-label="Voir l'historique de mes menus">
 								<History className="h-[1.2rem] w-[1.2rem]" />
