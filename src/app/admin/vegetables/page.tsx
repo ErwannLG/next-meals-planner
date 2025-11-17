@@ -70,7 +70,7 @@ export default async function VegetablesPage() {
                 vegetables.map((vegetable) => (
                   <tr
                     key={vegetable.id}
-                    className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
+                    className="border-b border-gray-200 dark:border-gray-700 transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800"
                   >
                     <td className="p-4 text-gray-900 dark:text-white">
                       {vegetable.name}

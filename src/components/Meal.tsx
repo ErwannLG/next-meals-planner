@@ -14,7 +14,7 @@ export default function Meal({ index, day, meal, toggleLock }: MealProps) {
 
 	return (
 		<article
-			className="shrink-0 grow-0 basis-auto rounded-lg border px-4 py-4 shadow-lg md:w-80 lg:w-64"
+			className="shrink-0 grow-0 basis-auto rounded-lg border px-4 py-4 shadow-lg md:w-80 lg:w-64 transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] hover:border-primary/50"
 			aria-labelledby={`day-${index}-heading`}
 		>
 			<h2

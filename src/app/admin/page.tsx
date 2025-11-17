@@ -32,7 +32,7 @@ export default async function AdminPage() {
 
       {/* Statistics Cards */}
       <div className="grid gap-6 md:grid-cols-2 mb-8">
-        <Card className="p-6">
+        <Card className="p-6 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -53,7 +53,7 @@ export default async function AdminPage() {
           </Link>
         </Card>
 
-        <Card className="p-6">
+        <Card className="p-6 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -82,7 +82,7 @@ export default async function AdminPage() {
         </h2>
         <div className="grid gap-4 md:grid-cols-2">
           <Link href="/admin/dishes/add">
-            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer">
+            <Card className="p-6 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-lg">
                   <Plus className="text-blue-600 dark:text-blue-300" size={20} />
@@ -100,7 +100,7 @@ export default async function AdminPage() {
           </Link>
 
           <Link href="/admin/vegetables/add">
-            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer">
+            <Card className="p-6 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
                   <Plus className="text-green-600 dark:text-green-300" size={20} />
