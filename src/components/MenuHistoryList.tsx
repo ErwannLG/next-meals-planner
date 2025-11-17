@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import { MenuHistoryType } from '@/types'
 import { Button } from './ui/button'
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronDown, ChevronUp, ShoppingCart } from 'lucide-react'
+import ShoppingList from './ShoppingList'
 
 interface Props {
 	menuHistory: MenuHistoryType[]
@@ -11,9 +12,22 @@ interface Props {
 
 export default function MenuHistoryList({ menuHistory }: Props) {
 	const [expandedMenus, setExpandedMenus] = useState<Set<number>>(new Set())
+	const [shoppingListMenus, setShoppingListMenus] = useState<Set<number>>(new Set())
 
 	const toggleMenu = (menuId: number) => {
 		setExpandedMenus((prev) => {
+			const newSet = new Set(prev)
+			if (newSet.has(menuId)) {
+				newSet.delete(menuId)
+			} else {
+				newSet.add(menuId)
+			}
+			return newSet
+		})
+	}
+
+	const toggleShoppingList = (menuId: number) => {
+		setShoppingListMenus((prev) => {
 			const newSet = new Set(prev)
 			if (newSet.has(menuId)) {
 				newSet.delete(menuId)
@@ -39,6 +53,7 @@ export default function MenuHistoryList({ menuHistory }: Props) {
 		<div className="space-y-4">
 			{menuHistory.map((menu) => {
 				const isExpanded = expandedMenus.has(menu.id)
+				const showShoppingList = shoppingListMenus.has(menu.id)
 
 				return (
 					<div
@@ -54,18 +69,29 @@ export default function MenuHistoryList({ menuHistory }: Props) {
 									Validé le {formatDate(menu.validatedAt)}
 								</p>
 							</div>
-							<Button
-								variant="ghost"
-								size="sm"
-								onClick={() => toggleMenu(menu.id)}
-								aria-label={isExpanded ? 'Masquer les détails' : 'Afficher les détails'}
-							>
-								{isExpanded ? (
-									<ChevronUp size={20} />
-								) : (
-									<ChevronDown size={20} />
-								)}
-							</Button>
+							<div className="flex gap-2">
+								<Button
+									variant="outline"
+									size="sm"
+									onClick={() => toggleShoppingList(menu.id)}
+									aria-label={showShoppingList ? 'Masquer la liste de courses' : 'Afficher la liste de courses'}
+								>
+									<ShoppingCart size={16} className="mr-1" />
+									{showShoppingList ? 'Masquer' : 'Liste'}
+								</Button>
+								<Button
+									variant="ghost"
+									size="sm"
+									onClick={() => toggleMenu(menu.id)}
+									aria-label={isExpanded ? 'Masquer les détails' : 'Afficher les détails'}
+								>
+									{isExpanded ? (
+										<ChevronUp size={20} />
+									) : (
+										<ChevronDown size={20} />
+									)}
+								</Button>
+							</div>
 						</div>
 
 						{isExpanded && (
@@ -86,6 +112,12 @@ export default function MenuHistoryList({ menuHistory }: Props) {
 										</div>
 									</div>
 								))}
+							</div>
+						)}
+
+						{showShoppingList && (
+							<div className="mt-4 border-t pt-4">
+								<ShoppingList menuHistoryId={menu.id} />
 							</div>
 						)}
 					</div>
