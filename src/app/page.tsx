@@ -8,7 +8,7 @@ import { ModeToggle } from '@/components/ModeToggle'
 import { UserButton, SignInButton, currentUser } from '@clerk/nextjs'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Settings } from 'lucide-react'
+import { Settings, History } from 'lucide-react'
 
 export default async function Home({
 	searchParams,
@@ -38,12 +38,20 @@ export default async function Home({
 					vegetablesSeasons={vegetablesSeasons}
 				/>
 				{user && (
-					<Link href="/admin">
-						<Button variant="outline" size="icon">
-							<Settings className="h-[1.2rem] w-[1.2rem]" />
-							<span className="sr-only">Admin Dashboard</span>
-						</Button>
-					</Link>
+					<>
+						<Link href="/history">
+							<Button variant="outline" size="icon" aria-label="Voir l'historique de mes menus">
+								<History className="h-[1.2rem] w-[1.2rem]" />
+								<span className="sr-only">Historique des menus</span>
+							</Button>
+						</Link>
+						<Link href="/admin">
+							<Button variant="outline" size="icon" aria-label="Dashboard Admin">
+								<Settings className="h-[1.2rem] w-[1.2rem]" />
+								<span className="sr-only">Admin Dashboard</span>
+							</Button>
+						</Link>
+					</>
 				)}
 				<SignInButton />
 				<UserButton afterSignOutUrl="/" />

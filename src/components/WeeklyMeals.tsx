@@ -3,10 +3,11 @@
 import { useState } from 'react'
 import { MealType, MealItemType, FoodType } from '@/types'
 import { useSelectedDays } from '@/contexts/selectedDays-context'
+import { useUser } from '@clerk/nextjs'
 import Meal from './Meal'
 import { shuffleArray } from '@/lib/utils'
 import { Button } from './ui/button'
-import { RefreshCw } from 'lucide-react'
+import { RefreshCw, Check } from 'lucide-react'
 
 interface Props {
 	dishes: FoodType[]
@@ -26,7 +27,10 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 	}
 
 	const [weeklyMeals, setWeeklyMeals] = useState<MealType[]>(meals)
+	const [isSaving, setIsSaving] = useState(false)
+	const [saveSuccess, setSaveSuccess] = useState(false)
 
+	const { isSignedIn } = useUser()
 	const daysContext = useSelectedDays()
 	if (!daysContext) {
 		return null
@@ -95,6 +99,47 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 		setWeeklyMeals(newMeals)
 	}
 
+	async function saveMenu() {
+		if (!isSignedIn) {
+			alert('Vous devez être connecté pour sauvegarder un menu')
+			return
+		}
+
+		setIsSaving(true)
+		setSaveSuccess(false)
+
+		try {
+			const menuData = {
+				numberOfDays: days.length,
+				items: weeklyMeals.slice(0, days.length).map((meal, index) => ({
+					dayNumber: index + 1,
+					dishId: meal.dish.id,
+					vegetableId: meal.vegetable.id,
+				})),
+			}
+
+			const response = await fetch('/api/menu-history', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(menuData),
+			})
+
+			if (!response.ok) {
+				throw new Error('Erreur lors de la sauvegarde')
+			}
+
+			setSaveSuccess(true)
+			setTimeout(() => setSaveSuccess(false), 3000)
+		} catch (error) {
+			console.error('Error saving menu:', error)
+			alert('Erreur lors de la sauvegarde du menu')
+		} finally {
+			setIsSaving(false)
+		}
+	}
+
 	return (
 		<>
 			<section
@@ -112,7 +157,7 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 				))}
 			</section>
 			<div
-				className="fixed bottom-0 left-0 right-0 flex justify-center pb-2 md:static"
+				className="fixed bottom-0 left-0 right-0 flex justify-center gap-2 pb-2 md:static"
 				role="toolbar"
 				aria-label="Actions du planning"
 			>
@@ -124,6 +169,18 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 					<RefreshCw size={24} aria-hidden="true" />
 					Nouvelles suggestions
 				</Button>
+				{isSignedIn && (
+					<Button
+						onClick={saveMenu}
+						disabled={isSaving}
+						className="gap-2"
+						variant={saveSuccess ? 'default' : 'outline'}
+						aria-label="Valider et sauvegarder ce menu"
+					>
+						<Check size={24} aria-hidden="true" />
+						{isSaving ? 'Sauvegarde...' : saveSuccess ? 'Sauvegardé !' : 'Valider ce menu'}
+					</Button>
+				)}
 			</div>
 		</>
 	)
