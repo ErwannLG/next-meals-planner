@@ -6,6 +6,11 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { Settings } from 'lucide-react'
 import DaysSelector from '@/components/DaysSelector'
 import SeasonsSelector from './SeasonsSelector'
@@ -21,12 +26,19 @@ export default function Options({
 }: SeasonsSelectorProps) {
 	return (
 		<Popover>
-			<PopoverTrigger asChild>
-				<Button variant="outline" size="icon">
-					<Settings className="h-[1.2rem] w-[1.2rem]" />
-					<span className="sr-only">Toggle theme</span>
-				</Button>
-			</PopoverTrigger>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<PopoverTrigger asChild>
+						<Button variant="outline" size="icon">
+							<Settings className="h-[1.2rem] w-[1.2rem]" />
+							<span className="sr-only">Options</span>
+						</Button>
+					</PopoverTrigger>
+				</TooltipTrigger>
+				<TooltipContent>
+					<p>Options</p>
+				</TooltipContent>
+			</Tooltip>
 			<PopoverContent className="w-80">
 				<div className="grid gap-4">
 					<SeasonsSelector

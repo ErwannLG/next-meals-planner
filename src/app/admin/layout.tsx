@@ -8,6 +8,11 @@ import {
   SheetContent,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { AdminSidebar } from '@/components/AdminSidebar';
 
 export default function AdminLayout({
@@ -33,15 +38,22 @@ export default function AdminLayout({
               Admin Dashboard
             </h1>
             <Sheet open={open} onOpenChange={setOpen}>
-              <SheetTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  aria-label="Ouvrir le menu"
-                >
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <SheetTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      aria-label="Ouvrir le menu"
+                    >
+                      <Menu className="h-5 w-5" />
+                    </Button>
+                  </SheetTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Ouvrir le menu</p>
+                </TooltipContent>
+              </Tooltip>
               <SheetContent side="left" className="w-64 p-0">
                 <AdminSidebar onLinkClick={() => setOpen(false)} />
               </SheetContent>

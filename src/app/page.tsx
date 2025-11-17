@@ -9,6 +9,11 @@ import { UserButton, SignInButton, currentUser } from '@clerk/nextjs'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Settings, History } from 'lucide-react'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 export default async function Home({
 	searchParams,
@@ -39,18 +44,32 @@ export default async function Home({
 				/>
 				{user && (
 					<>
-						<Link href="/history">
-							<Button variant="outline" size="icon" aria-label="Voir l'historique de mes menus">
-								<History className="h-[1.2rem] w-[1.2rem]" />
-								<span className="sr-only">Historique des menus</span>
-							</Button>
-						</Link>
-						<Link href="/admin">
-							<Button variant="outline" size="icon" aria-label="Dashboard Admin">
-								<Settings className="h-[1.2rem] w-[1.2rem]" />
-								<span className="sr-only">Admin Dashboard</span>
-							</Button>
-						</Link>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Link href="/history">
+									<Button variant="outline" size="icon" aria-label="Voir l'historique de mes menus">
+										<History className="h-[1.2rem] w-[1.2rem]" />
+										<span className="sr-only">Historique des menus</span>
+									</Button>
+								</Link>
+							</TooltipTrigger>
+							<TooltipContent>
+								<p>Historique des menus</p>
+							</TooltipContent>
+						</Tooltip>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Link href="/admin">
+									<Button variant="outline" size="icon" aria-label="Dashboard Admin">
+										<Settings className="h-[1.2rem] w-[1.2rem]" />
+										<span className="sr-only">Admin Dashboard</span>
+									</Button>
+								</Link>
+							</TooltipTrigger>
+							<TooltipContent>
+								<p>Admin Dashboard</p>
+							</TooltipContent>
+						</Tooltip>
 					</>
 				)}
 				<SignInButton />
