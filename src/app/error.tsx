@@ -25,7 +25,7 @@ export default function Error({
 				/>
 				<h1 className="text-2xl font-bold">Une erreur est survenue</h1>
 				<p className="text-muted-foreground">
-					Désolé, nous n'avons pas pu charger les suggestions de repas. Cela
+					Désolé, nous n&apos;avons pas pu charger les suggestions de repas. Cela
 					peut être dû à un problème de connexion ou à une erreur temporaire.
 				</p>
 				<Button onClick={() => reset()} className="mt-4">
