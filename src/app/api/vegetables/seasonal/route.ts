@@ -46,15 +46,24 @@ const VEGETABLES = [
 ]
 
 export async function GET() {
-	const currentSeason: string | undefined = getCurrentSeason()
-	let seasonalVegetables
-	if (currentSeason !== undefined) {
-		seasonalVegetables = VEGETABLES.filter((vegetable) =>
-			vegetable.seasons.includes(currentSeason)
-		)
-	} else {
-		seasonalVegetables = VEGETABLES
-	}
+	try {
+		const currentSeason: string | undefined = getCurrentSeason()
+		let seasonalVegetables
 
-	return NextResponse.json(seasonalVegetables)
+		if (currentSeason !== undefined) {
+			seasonalVegetables = VEGETABLES.filter((vegetable) =>
+				vegetable.seasons.includes(currentSeason)
+			)
+		} else {
+			seasonalVegetables = VEGETABLES
+		}
+
+		return NextResponse.json(seasonalVegetables)
+	} catch (error) {
+		console.error('Error fetching seasonal vegetables:', error)
+		return NextResponse.json(
+			{ error: 'Failed to fetch seasonal vegetables' },
+			{ status: 500 }
+		)
+	}
 }

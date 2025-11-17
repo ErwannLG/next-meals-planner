@@ -1,12 +1,29 @@
 import { shuffleArray } from './utils'
 import { FoodType } from '@/types'
+import { getBaseUrl } from './api-url'
 
-export default async function getRandomSeasonalDishes() {
-	const dishes: FoodType[] = await fetch(
-		'http://localhost:3000/api/dishes/seasonal'
-	).then((res) => res.json())
+export default async function getRandomSeasonalDishes(): Promise<FoodType[]> {
+	try {
+		const response = await fetch(`${getBaseUrl()}/api/dishes/seasonal`, {
+			cache: 'no-store',
+		})
 
-	const shuffledDishes = shuffleArray(dishes)
+		if (!response.ok) {
+			throw new Error(
+				`Failed to fetch seasonal dishes: ${response.status} ${response.statusText}`
+			)
+		}
 
-	return shuffledDishes
+		const dishes: FoodType[] = await response.json()
+
+		if (!Array.isArray(dishes) || dishes.length === 0) {
+			console.warn('No seasonal dishes found, returning empty array')
+			return []
+		}
+
+		return shuffleArray(dishes)
+	} catch (error) {
+		console.error('Error fetching seasonal dishes:', error)
+		return []
+	}
 }

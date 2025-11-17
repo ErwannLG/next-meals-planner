@@ -1,9 +1,18 @@
 import { authMiddleware } from '@clerk/nextjs'
 
-// This example protects all routes including api/trpc routes
-// Please edit this to allow other routes to be public as needed.
-// See https://clerk.com/docs/references/nextjs/auth/?dishesSeasons=current&vegetablesSeasons=all-middleware for more information about configuring your Middleware
-export default authMiddleware({ ignoredRoutes: ['/'] })
+// Protect all routes by default, but allow public access to:
+// - Home page (/)
+// - API routes for reading data (GET only)
+// See https://clerk.com/docs/references/nextjs/auth-middleware
+export default authMiddleware({
+	publicRoutes: [
+		'/',
+		'/api/dishes',
+		'/api/dishes/seasonal',
+		'/api/vegetables',
+		'/api/vegetables/seasonal',
+	],
+})
 
 export const config = {
 	matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],

@@ -4,12 +4,10 @@ import { prisma } from '@/lib/prisma'
 export default async function AddDish() {
 	const addDish = async (formData: FormData) => {
 		'use server'
-		console.log(formData)
 
 		const seasons = formData.getAll('season')
 		// convert seasons to an array of integers
 		const seasonIds = seasons.map((season) => parseInt(season as string))
-		console.log({ seasonIds })
 
 		await prisma.dish.create({
 			data: {

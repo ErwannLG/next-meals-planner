@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { MealType, MealItemType, FoodType } from '@/types'
 import { useSelectedDays } from '@/contexts/selectedDays-context'
 import Meal from './Meal'
-import { getRandomItemFromArray, shuffleArray } from '@/lib/utils'
+import { shuffleArray } from '@/lib/utils'
 import { Button } from './ui/button'
 import { RefreshCw } from 'lucide-react'
 
@@ -14,8 +14,6 @@ interface Props {
 }
 
 export default function WeeklyMeals({ dishes, vegetables }: Props) {
-	console.log({ dishes }, { vegetables })
-
 	// create meals from the dishes and vegetables props to set the initial state
 	const meals = []
 	for (let id = 0; id <= 6; id++) {
@@ -33,9 +31,7 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 	if (!daysContext) {
 		return null
 	}
-	// const { selectedDays } = daysContext
 	const { days } = daysContext
-	console.log({ days })
 
 	function toggleLock(itemType: 'dish' | 'vegetable', index: number) {
 		let itemsArray: MealItemType[] = []
@@ -73,13 +69,21 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 		const availableDishes = previousDishes.filter((dish) => !dish.locked)
 		const newRandomDishes = shuffleArray(availableDishes)
 
+		// get vegetables from meals as an array
+		const previousVegetables = weeklyMeals.map((meal) => meal.vegetable)
+		// remove locked vegetables from the previousVegetables array so you don't get duplicates
+		const availableVegetables = previousVegetables.filter(
+			(vegetable) => !vegetable.locked
+		)
+		const newRandomVegetables = shuffleArray(availableVegetables)
+
 		const newMeals: MealType[] = weeklyMeals.map((meal) => {
 			// new dish if unlocked, otherwise keep the same dish. using pop so you don't get duplicates
 			const newDish = meal.dish.locked ? meal.dish : newRandomDishes.pop()
-			// new random vegetable if unlocked
+			// new vegetable if unlocked, otherwise keep the same vegetable. using pop so you don't get duplicates
 			const newVegetable = meal.vegetable.locked
 				? meal.vegetable
-				: getRandomItemFromArray(vegetables)
+				: newRandomVegetables.pop()
 
 			return {
 				...meal,
@@ -109,7 +113,6 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 					<RefreshCw size={24} />
 					Nouvelles suggestions
 				</Button>
-				<div className="flex items-center space-x-2"></div>
 			</div>
 		</>
 	)
