@@ -14,6 +14,7 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { Logo } from '@/components/Logo'
 
 export default async function Home({
 	searchParams,
@@ -36,7 +37,10 @@ export default async function Home({
 
 	return (
 		<main className="flex min-h-[95dvh] flex-col">
-			<nav className="flex justify-end gap-2">
+			<header className="mb-6">
+				<div className="flex items-center justify-between gap-4 mb-4">
+					<Logo size="md" />
+					<nav className="flex gap-2">
 				<ModeToggle />
 				<Options
 					dishesSeasons={dishesSeasons}
@@ -72,9 +76,19 @@ export default async function Home({
 						</Tooltip>
 					</>
 				)}
-				<SignInButton />
-				<UserButton afterSignOutUrl="/" />
-			</nav>
+						<SignInButton />
+						<UserButton afterSignOutUrl="/" />
+					</nav>
+				</div>
+				<div className="text-center">
+					<h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+						Planifiez vos repas de la semaine
+					</h1>
+					<p className="text-muted-foreground text-sm md:text-base">
+						Découvrez des suggestions de plats et légumes de saison pour simplifier votre quotidien
+					</p>
+				</div>
+			</header>
 			<WeeklyMeals dishes={dishes} vegetables={vegetables} />
 		</main>
 	)

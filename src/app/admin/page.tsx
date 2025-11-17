@@ -22,11 +22,11 @@ export default async function AdminPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-          Dashboard Admin
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+          Tableau de bord
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
-          Gérez vos plats et légumes
+        <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base">
+          Vue d'ensemble de vos plats et légumes - Gérez votre base de données culinaire
         </p>
       </div>
 

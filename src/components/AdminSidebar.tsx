@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { UserButton } from '@clerk/nextjs';
 import { Home, UtensilsCrossed, Carrot, ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Logo } from '@/components/Logo';
 
 interface AdminSidebarProps {
   onLinkClick?: () => void;
@@ -48,9 +49,15 @@ export function AdminSidebar({ onLinkClick }: AdminSidebarProps) {
     <div className="flex flex-col h-full">
       {/* Logo/Header */}
       <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-          Admin Dashboard
-        </h1>
+        <Logo size="sm" className="mb-3" />
+        <div>
+          <h1 className="text-lg font-bold text-gray-900 dark:text-white">
+            Admin Dashboard
+          </h1>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+            Gestion des plats et légumes
+          </p>
+        </div>
       </div>
 
       {/* Navigation */}
