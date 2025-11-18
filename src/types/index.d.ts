@@ -8,6 +8,7 @@ export type MealItemType = {
 	id: number
 	name: string
 	locked: boolean
+	preference?: 'FAVORITE' | 'DISLIKED' | null
 }
 
 export type MealType = {

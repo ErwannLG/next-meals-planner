@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { MealType, MealItemType, FoodType } from '@/types'
 import { useSelectedDays } from '@/contexts/selectedDays-context'
 import { useUser } from '@clerk/nextjs'
@@ -10,33 +10,111 @@ import { Button } from './ui/button'
 import { RefreshCw, Check } from 'lucide-react'
 import { toast } from 'sonner'
 
+type PreferenceType = 'FAVORITE' | 'DISLIKED'
+
+interface UserPreference {
+	id: number
+	userId: string
+	dishId?: number
+	vegetableId?: number
+	type: PreferenceType
+	dish?: { id: number; name: string }
+	vegetable?: { id: number; name: string }
+}
+
 interface Props {
 	dishes: FoodType[]
 	vegetables: FoodType[]
 }
 
 export default function WeeklyMeals({ dishes, vegetables }: Props) {
+	const { isSignedIn } = useUser()
+	const daysContext = useSelectedDays()
+	const [dishPreferences, setDishPreferences] = useState<Map<number, PreferenceType>>(new Map())
+	const [vegetablePreferences, setVegetablePreferences] = useState<Map<number, PreferenceType>>(new Map())
+
 	// create meals from the dishes and vegetables props to set the initial state
-	const meals = []
-	for (let id = 0; id <= 6; id++) {
-		const meal = {
-			id,
-			dish: { ...dishes[id], locked: false },
-			vegetable: { ...vegetables[id], locked: false },
+	const createMeals = () => {
+		const meals = []
+		for (let id = 0; id <= 6; id++) {
+			const dishPref = dishPreferences.get(dishes[id].id)
+			const vegPref = vegetablePreferences.get(vegetables[id].id)
+
+			const meal = {
+				id,
+				dish: { ...dishes[id], locked: false, preference: dishPref || null },
+				vegetable: { ...vegetables[id], locked: false, preference: vegPref || null },
+			}
+			meals.push(meal)
 		}
-		meals.push(meal)
+		return meals
 	}
 
-	const [weeklyMeals, setWeeklyMeals] = useState<MealType[]>(meals)
+	const [weeklyMeals, setWeeklyMeals] = useState<MealType[]>(createMeals())
 	const [isSaving, setIsSaving] = useState(false)
 	const [saveSuccess, setSaveSuccess] = useState(false)
 
-	const { isSignedIn } = useUser()
-	const daysContext = useSelectedDays()
 	if (!daysContext) {
 		return null
 	}
 	const { days } = daysContext
+
+	// Fetch user preferences on mount
+	useEffect(() => {
+		if (!isSignedIn) return
+
+		async function fetchPreferences() {
+			try {
+				const [dishPrefsResponse, vegPrefsResponse] = await Promise.all([
+					fetch('/api/preferences/dishes'),
+					fetch('/api/preferences/vegetables'),
+				])
+
+				if (dishPrefsResponse.ok) {
+					const dishPrefs: UserPreference[] = await dishPrefsResponse.json()
+					const dishPrefMap = new Map<number, PreferenceType>()
+					dishPrefs.forEach((pref) => {
+						if (pref.dishId) {
+							dishPrefMap.set(pref.dishId, pref.type)
+						}
+					})
+					setDishPreferences(dishPrefMap)
+				}
+
+				if (vegPrefsResponse.ok) {
+					const vegPrefs: UserPreference[] = await vegPrefsResponse.json()
+					const vegPrefMap = new Map<number, PreferenceType>()
+					vegPrefs.forEach((pref) => {
+						if (pref.vegetableId) {
+							vegPrefMap.set(pref.vegetableId, pref.type)
+						}
+					})
+					setVegetablePreferences(vegPrefMap)
+				}
+			} catch (error) {
+				console.error('Error fetching preferences:', error)
+			}
+		}
+
+		fetchPreferences()
+	}, [isSignedIn])
+
+	// Update meals when preferences change
+	useEffect(() => {
+		setWeeklyMeals((prevMeals) =>
+			prevMeals.map((meal) => ({
+				...meal,
+				dish: {
+					...meal.dish,
+					preference: dishPreferences.get(meal.dish.id) || null,
+				},
+				vegetable: {
+					...meal.vegetable,
+					preference: vegetablePreferences.get(meal.vegetable.id) || null,
+				},
+			}))
+		)
+	}, [dishPreferences, vegetablePreferences])
 
 	function toggleLock(itemType: 'dish' | 'vegetable', index: number) {
 		let itemsArray: MealItemType[] = []
@@ -70,25 +148,34 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 	function getRandomMeals() {
 		// get dishes from meals as an array
 		const previousDishes = weeklyMeals.map((meal) => meal.dish)
-		// remove locked dishes from the previousDishes array so you don't get duplicates
-		const availableDishes = previousDishes.filter((dish) => !dish.locked)
+		// remove locked dishes and disliked dishes from the previousDishes array
+		const availableDishes = previousDishes.filter(
+			(dish) => !dish.locked && dish.preference !== 'DISLIKED'
+		)
 		const newRandomDishes = shuffleArray(availableDishes)
 
 		// get vegetables from meals as an array
 		const previousVegetables = weeklyMeals.map((meal) => meal.vegetable)
-		// remove locked vegetables from the previousVegetables array so you don't get duplicates
+		// remove locked vegetables and disliked vegetables from the previousVegetables array
 		const availableVegetables = previousVegetables.filter(
-			(vegetable) => !vegetable.locked
+			(vegetable) => !vegetable.locked && vegetable.preference !== 'DISLIKED'
 		)
 		const newRandomVegetables = shuffleArray(availableVegetables)
 
 		const newMeals: MealType[] = weeklyMeals.map((meal) => {
 			// new dish if unlocked, otherwise keep the same dish. using pop so you don't get duplicates
-			const newDish = meal.dish.locked ? meal.dish : newRandomDishes.pop()
+			// if the current dish is disliked, force a replacement
+			const shouldReplaceDish = !meal.dish.locked || meal.dish.preference === 'DISLIKED'
+			const newDish = shouldReplaceDish && newRandomDishes.length > 0
+				? newRandomDishes.pop()
+				: meal.dish
+
 			// new vegetable if unlocked, otherwise keep the same vegetable. using pop so you don't get duplicates
-			const newVegetable = meal.vegetable.locked
-				? meal.vegetable
-				: newRandomVegetables.pop()
+			// if the current vegetable is disliked, force a replacement
+			const shouldReplaceVegetable = !meal.vegetable.locked || meal.vegetable.preference === 'DISLIKED'
+			const newVegetable = shouldReplaceVegetable && newRandomVegetables.length > 0
+				? newRandomVegetables.pop()
+				: meal.vegetable
 
 			return {
 				...meal,
@@ -98,6 +185,77 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 		})
 
 		setWeeklyMeals(newMeals)
+	}
+
+	async function handlePreferenceChange(
+		itemType: 'dish' | 'vegetable',
+		itemId: number,
+		preference: 'FAVORITE' | 'DISLIKED' | null
+	) {
+		if (!isSignedIn) {
+			alert('Vous devez être connecté pour gérer vos préférences')
+			return
+		}
+
+		try {
+			const endpoint = itemType === 'dish'
+				? '/api/preferences/dishes'
+				: '/api/preferences/vegetables'
+
+			if (preference === null) {
+				// Delete preference
+				const queryParam = itemType === 'dish' ? 'dishId' : 'vegetableId'
+				const response = await fetch(`${endpoint}?${queryParam}=${itemId}`, {
+					method: 'DELETE',
+				})
+
+				if (!response.ok) {
+					throw new Error('Erreur lors de la suppression de la préférence')
+				}
+
+				// Update local state
+				if (itemType === 'dish') {
+					setDishPreferences((prev) => {
+						const newMap = new Map(prev)
+						newMap.delete(itemId)
+						return newMap
+					})
+				} else {
+					setVegetablePreferences((prev) => {
+						const newMap = new Map(prev)
+						newMap.delete(itemId)
+						return newMap
+					})
+				}
+			} else {
+				// Create or update preference
+				const body = itemType === 'dish'
+					? { dishId: itemId, type: preference }
+					: { vegetableId: itemId, type: preference }
+
+				const response = await fetch(endpoint, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(body),
+				})
+
+				if (!response.ok) {
+					throw new Error('Erreur lors de la sauvegarde de la préférence')
+				}
+
+				// Update local state
+				if (itemType === 'dish') {
+					setDishPreferences((prev) => new Map(prev).set(itemId, preference))
+				} else {
+					setVegetablePreferences((prev) => new Map(prev).set(itemId, preference))
+				}
+			}
+		} catch (error) {
+			console.error('Error updating preference:', error)
+			alert('Erreur lors de la mise à jour de la préférence')
+		}
 	}
 
 	async function saveMenu() {
@@ -155,6 +313,7 @@ export default function WeeklyMeals({ dishes, vegetables }: Props) {
 						index={index}
 						meal={weeklyMeals[index]}
 						toggleLock={toggleLock}
+						onPreferenceChange={isSignedIn ? handlePreferenceChange : undefined}
 					/>
 				))}
 			</section>

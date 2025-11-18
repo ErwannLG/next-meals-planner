@@ -19,17 +19,19 @@ model Season {
 }
 
 model Dish {
-  id          Int         @id @default(autoincrement())
+  id          Int                   @id @default(autoincrement())
   name        String
-  seasons     Season[]    @relation("DishToSeason")
+  seasons     Season[]              @relation("DishToSeason")
   menuItems   MenuItem[]
+  preferences UserDishPreference[]
 }
 
 model Vegetable {
-  id          Int         @id @default(autoincrement())
+  id          Int                       @id @default(autoincrement())
   name        String
-  seasons     Season[]    @relation("VegetableToSeason")
+  seasons     Season[]                  @relation("VegetableToSeason")
   menuItems   MenuItem[]
+  preferences UserVegetablePreference[]
 }
 
 model MenuHistory {
@@ -51,4 +53,33 @@ model MenuItem {
   vegetableId   Int
   dish          Dish        @relation(fields: [dishId], references: [id])
   vegetable     Vegetable   @relation(fields: [vegetableId], references: [id])
+}
+
+model UserDishPreference {
+  id        Int            @id @default(autoincrement())
+  userId    String
+  dishId    Int
+  type      PreferenceType
+  createdAt DateTime       @default(now())
+  dish      Dish           @relation(fields: [dishId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, dishId])
+  @@index([userId])
+}
+
+model UserVegetablePreference {
+  id         Int            @id @default(autoincrement())
+  userId     String
+  vegetableId Int
+  type       PreferenceType
+  createdAt  DateTime       @default(now())
+  vegetable  Vegetable      @relation(fields: [vegetableId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, vegetableId])
+  @@index([userId])
+}
+
+enum PreferenceType {
+  FAVORITE
+  DISLIKED
 }
