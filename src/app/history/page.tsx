@@ -5,6 +5,7 @@ import MenuHistoryList from '@/components/MenuHistoryList'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
+import { Logo } from '@/components/Logo'
 
 export default async function HistoryPage() {
 	const user = await currentUser()
@@ -35,13 +36,25 @@ export default async function HistoryPage() {
 
 	return (
 		<main className="container mx-auto px-4 py-8">
-			<Link href="/">
-				<Button variant="ghost" className="mb-4 gap-2">
-					<ArrowLeft size={20} />
-					Retour au planning
-				</Button>
-			</Link>
-			<h1 className="mb-8 text-3xl font-bold">Historique de mes menus</h1>
+			<div className="mb-8">
+				<Link href="/">
+					<Button variant="ghost" className="mb-6 gap-2">
+						<ArrowLeft size={20} />
+						Retour au planning
+					</Button>
+				</Link>
+				<div className="flex items-center gap-4 mb-4">
+					<Logo size="sm" />
+				</div>
+				<div>
+					<h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+						Historique de mes menus
+					</h1>
+					<p className="text-muted-foreground">
+						Consultez tous les menus que vous avez validés
+					</p>
+				</div>
+			</div>
 			{menuHistory.length === 0 ? (
 				<p className="text-muted-foreground">
 					Vous n&apos;avez pas encore validé de menu.

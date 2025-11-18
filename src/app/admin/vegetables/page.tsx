@@ -23,13 +23,12 @@ export default async function VegetablesPage() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Gestion des légumes
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base">
             {vegetables.length} légume{vegetables.length > 1 ? 's' : ''}{' '}
-            enregistré
-            {vegetables.length > 1 ? 's' : ''}
+            enregistré{vegetables.length > 1 ? 's' : ''} dans la base de données
           </p>
         </div>
         <Link href="/admin/vegetables/add">
@@ -70,7 +69,7 @@ export default async function VegetablesPage() {
                 vegetables.map((vegetable) => (
                   <tr
                     key={vegetable.id}
-                    className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
+                    className="border-b border-gray-200 dark:border-gray-700 transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800"
                   >
                     <td className="p-4 text-gray-900 dark:text-white">
                       {vegetable.name}

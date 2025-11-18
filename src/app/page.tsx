@@ -8,7 +8,13 @@ import { ModeToggle } from '@/components/ModeToggle'
 import { UserButton, SignInButton, currentUser } from '@clerk/nextjs'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Settings, History, Heart } from 'lucide-react'
+import { Settings, History } from 'lucide-react'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { Logo } from '@/components/Logo'
 
 export default async function Home({
 	searchParams,
@@ -31,7 +37,10 @@ export default async function Home({
 
 	return (
 		<main className="flex min-h-[95dvh] flex-col">
-			<nav className="flex justify-end gap-2">
+			<header className="mb-6">
+				<div className="flex items-center justify-between gap-4 mb-4">
+					<Logo size="md" />
+					<nav className="flex gap-2">
 				<ModeToggle />
 				<Options
 					dishesSeasons={dishesSeasons}
@@ -39,29 +48,47 @@ export default async function Home({
 				/>
 				{user && (
 					<>
-						<Link href="/preferences">
-							<Button variant="outline" size="icon" aria-label="Gérer mes préférences">
-								<Heart className="h-[1.2rem] w-[1.2rem]" />
-								<span className="sr-only">Mes préférences</span>
-							</Button>
-						</Link>
-						<Link href="/history">
-							<Button variant="outline" size="icon" aria-label="Voir l'historique de mes menus">
-								<History className="h-[1.2rem] w-[1.2rem]" />
-								<span className="sr-only">Historique des menus</span>
-							</Button>
-						</Link>
-						<Link href="/admin">
-							<Button variant="outline" size="icon" aria-label="Dashboard Admin">
-								<Settings className="h-[1.2rem] w-[1.2rem]" />
-								<span className="sr-only">Admin Dashboard</span>
-							</Button>
-						</Link>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Link href="/history">
+									<Button variant="outline" size="icon" aria-label="Voir l'historique de mes menus">
+										<History className="h-[1.2rem] w-[1.2rem]" />
+										<span className="sr-only">Historique des menus</span>
+									</Button>
+								</Link>
+							</TooltipTrigger>
+							<TooltipContent>
+								<p>Historique des menus</p>
+							</TooltipContent>
+						</Tooltip>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Link href="/admin">
+									<Button variant="outline" size="icon" aria-label="Dashboard Admin">
+										<Settings className="h-[1.2rem] w-[1.2rem]" />
+										<span className="sr-only">Admin Dashboard</span>
+									</Button>
+								</Link>
+							</TooltipTrigger>
+							<TooltipContent>
+								<p>Admin Dashboard</p>
+							</TooltipContent>
+						</Tooltip>
 					</>
 				)}
-				<SignInButton />
-				<UserButton afterSignOutUrl="/" />
-			</nav>
+						<SignInButton />
+						<UserButton afterSignOutUrl="/" />
+					</nav>
+				</div>
+				<div className="text-center">
+					<h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+						Planifiez vos repas de la semaine
+					</h1>
+					<p className="text-muted-foreground text-sm md:text-base">
+						Découvrez des suggestions de plats et légumes de saison pour simplifier votre quotidien
+					</p>
+				</div>
+			</header>
 			<WeeklyMeals dishes={dishes} vegetables={vegetables} />
 		</main>
 	)

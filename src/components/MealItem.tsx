@@ -43,7 +43,7 @@ export default function MealItem({
 	}
 
 	return (
-		<Card className="shadow-md">
+		<Card className="shadow-md transition-all duration-200 hover:shadow-lg">
 			<CardHeader className="bg-muted">
 				<CardTitle className="flex w-full justify-between self-center rounded text-base font-medium text-muted-foreground">
 					<span id={`${itemType}-${index}-type`}>{itemTypeLabel}</span>

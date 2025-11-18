@@ -1,79 +1,71 @@
-import Link from 'next/link';
-import { UserButton } from '@clerk/nextjs';
-import { Home, UtensilsCrossed, Carrot, ArrowLeft } from 'lucide-react';
+'use client';
+
+import { useState } from 'react';
+import { Menu } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { AdminSidebar } from '@/components/AdminSidebar';
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
-        <div className="flex flex-col h-full">
-          {/* Logo/Header */}
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-              Admin Dashboard
-            </h1>
-          </div>
-
-          {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-2">
-            <Link
-              href="/"
-              className="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <ArrowLeft size={20} />
-              <span>Retour à l&apos;accueil</span>
-            </Link>
-
-            <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
-
-            <Link
-              href="/admin"
-              className="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <Home size={20} />
-              <span>Dashboard</span>
-            </Link>
-
-            <Link
-              href="/admin/dishes"
-              className="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <UtensilsCrossed size={20} />
-              <span>Plats</span>
-            </Link>
-
-            <Link
-              href="/admin/vegetables"
-              className="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <Carrot size={20} />
-              <span>Légumes</span>
-            </Link>
-          </nav>
-
-          {/* User Section */}
-          <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-            <div className="flex items-center gap-3">
-              <UserButton afterSignOutUrl="/" />
-              <div className="flex-1">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Admin
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* Desktop Sidebar - Hidden on mobile */}
+      <aside className="hidden md:block w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
+        <AdminSidebar />
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
-        <div className="container mx-auto p-8">{children}</div>
-      </main>
+      <div className="flex-1 flex flex-col">
+        {/* Mobile Header */}
+        <header className="md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-lg font-bold text-gray-900 dark:text-white">
+              Admin Dashboard
+            </h1>
+            <Sheet open={open} onOpenChange={setOpen}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <SheetTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      aria-label="Ouvrir le menu"
+                    >
+                      <Menu className="h-5 w-5" />
+                    </Button>
+                  </SheetTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Ouvrir le menu</p>
+                </TooltipContent>
+              </Tooltip>
+              <SheetContent side="left" className="w-64 p-0">
+                <AdminSidebar onLinkClick={() => setOpen(false)} />
+              </SheetContent>
+            </Sheet>
+          </div>
+        </header>
+
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-y-auto">
+          <div className="container mx-auto p-4 md:p-8">{children}</div>
+        </main>
+      </div>
     </div>
   );
 }
